@@ -1,17 +1,34 @@
-/********************************************************************************//**
-\file      TouchController.cs
-\brief     Animating controller that updates with the tracked controller.
-\copyright Copyright 2015 Oculus VR, LLC All Rights reserved.
-************************************************************************************/
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * All rights reserved.
+ *
+ * Licensed under the Oculus SDK License Agreement (the "License");
+ * you may not use the Oculus SDK except in compliance with the License,
+ * which is provided at the time of installation or download, or which
+ * otherwise accompanies this software in either electronic or hard copy form.
+ *
+ * You may obtain a copy of the License at
+ *
+ * https://developer.oculus.com/licenses/oculussdk/
+ *
+ * Unless required by applicable law or agreed to in writing, the Oculus SDK
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 using UnityEngine;
 
 namespace OVRTouchSample
 {
+    // Animating controller that updates with the tracked controller.
     public class TouchController : MonoBehaviour
     {
         [SerializeField]
-        private OVRInput.Controller m_controller;
+        private OVRInput.Controller m_controller = OVRInput.Controller.None;
+
         [SerializeField]
         private Animator m_animator = null;
 
@@ -47,6 +64,5 @@ namespace OVRTouchSample
                 m_restoreOnInputAcquired = false;
             }
         }
-
     }
 }

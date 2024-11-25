@@ -7,8 +7,8 @@ public class SoundManager : MonoBehaviour
     public static AudioClip Ins1L1, Ins2L1, Ins3L1, 
     Ins4L1, Ins5L1, Ins6L1, Ins7L1, Ins8L1, Ins9L1, Ins1L2, Ins2L2, Ins3L2, Ins4L2, Ins5L2, Ins6L2;
     static AudioSource audioSource; 
-    public GameObject pantallaIns;
-    public GameObject pantallaIns2;
+    public GameObject screen;
+    public GameObject scene2;
 
     public GameObject arrow;
     public Animator animArrow;
@@ -35,22 +35,23 @@ public class SoundManager : MonoBehaviour
         arrow.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         PlaySound("Ins1L1");
-        StartCoroutine(CambiarInstruccionPantalla("Ins1L1", "1Ins", "2Ins", 4, 15, 3));
+        StartCoroutine(ChangeScreenInstruction("Ins1L1", "1Ins", "2Ins", 4, 15, 3));
+        Debug.Log($"SoundManager Object {gameObject.name}");
     }
 
-    public IEnumerator CambiarInstruccionPantalla(string nombreAnim, string nombreInstruccion, string nombreInstruccion2, int secsImagen1, int secsAnim,int secsImagen2)
+    public IEnumerator ChangeScreenInstruction(string nombreAnim, string nameInstruction, string nameInstruction2, int secsImagen1, int secsAnim,int secsImagen2)
     {
         yield return new WaitForSeconds(secsAnim);
         arrow.SetActive(true);
         animArrow.Play(nombreAnim);
                
         yield return new WaitForSeconds(secsImagen1);
-        pantallaIns.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nombreInstruccion) as Texture;
+        screen.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nameInstruction) as Texture;
 
-        if(!(nombreInstruccion2.Equals("")))
+        if(!(nameInstruction2.Equals("")))
         {
             yield return new WaitForSeconds(secsImagen2);
-            pantallaIns.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nombreInstruccion2) as Texture;
+            screen.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nameInstruction2) as Texture;
         }   
     }
 
@@ -61,10 +62,10 @@ public class SoundManager : MonoBehaviour
         animArrow.Play(nombreAnim);
                
         yield return new WaitForSeconds(secsImagen);
-        pantallaIns2.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nombreInstruccion) as Texture;
+        scene2.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nombreInstruccion) as Texture;
     }
 
-    public void activarAnimacion(string nombreAnim)
+    public void activateAnimation(string nombreAnim)
     {
         animArrow.Play(nombreAnim);
     }

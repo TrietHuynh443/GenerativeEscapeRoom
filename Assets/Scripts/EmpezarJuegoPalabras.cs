@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmpezarJuegoPalabras : MonoBehaviour
+public class StartGameWords : MonoBehaviour
 {
 
     public float intensidadLuz;
     public Light Luz;
     public AudioClip sonido;
-    public VerificadorPalabras controlador;
+    public WordChecker controlador;
     public Animator anim;
     public GameObject btnJugar;
 

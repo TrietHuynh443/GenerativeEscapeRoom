@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VerificarInstruccion : MonoBehaviour
+public class CheckInstruction : MonoBehaviour
 {
-    public bool ins3 = false;
+    public bool instruction = false;
     private SoundManager soundManager;
 
-    public VerificarInstruccion submision1;
-    public VerificarInstruccion submision2;
+    public CheckInstruction submision1;
+    public CheckInstruction submision2;
 
     void Awake()
     {
         soundManager = GameObject.FindObjectOfType<SoundManager>();
     }   
 
-    void OnTriggerEnter(Collider col)
+    void OnTriggerEnter(Collider collision)
     {
-        if ((col.tag.Equals("mano")) && !ins3 && ((!submision1.ins3) && (!submision2.ins3))) 
+        //mano is hand
+        if ((collision.tag.Equals("mano")) && !instruction && (!submision1.instruction) && (!submision2.instruction)) 
         {
             soundManager.PlaySound("Ins3L1");
-            StartCoroutine(soundManager.CambiarInstruccionPantalla("Ins3L1", "3Ins", "", 0, 2, 0));
-            ins3 = true;
+            StartCoroutine(soundManager.ChangeScreenInstruction("Ins3L1", "3Ins", "", 0, 2, 0));
+            instruction = true;
         }
     }
 }

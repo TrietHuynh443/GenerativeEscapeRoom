@@ -1,41 +1,57 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Submision : MonoBehaviour
 {
-    public bool completada = false;
+    public bool completed = false;
     public AudioClip push;
-    public AudioClip incorrecto;
+    public AudioClip incorrect;
 
-    public Submision otro1;
-    public Submision otro2;
+    public Submision submission1;
+    public Submision submission2;
 
     private SoundManager soundManager;
 
-    public  bool inst4 = false;
+    public bool inst4 = false;
 
-
-    void Awake()
+    private void Awake()
     {
         soundManager = GameObject.FindObjectOfType<SoundManager>();
-    }   
+    }
 
-    void OnTriggerEnter(Collider col)
+    public void Update()
     {
-        if(col.name == this.name)
+#if UNITY_EDITOR_WIN
+        if (Input.GetKey(KeyCode.Space))
         {
-            AudioSource.PlayClipAtPoint(push, Vector3.zero, 1.0f);
-            completada = true;
-            if((!inst4)  && (!otro1.inst4) && (!otro2.inst4))
-            {
-                soundManager.PlaySound("Ins4L1");
-                StartCoroutine(soundManager.CambiarInstruccionPantalla("", "4Ins", "", 0, 2, 0));
-                inst4 = true;
-            }
+            Success();
         }
-        else{
-            AudioSource.PlayClipAtPoint(incorrecto, Vector3.zero, 1.0f);
+#endif
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.name == name)
+        {
+            Success();
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(incorrect, Vector3.zero, 1.0f);
+        }
+    }
+
+    private void Success()
+    {
+        AudioSource.PlayClipAtPoint(push, Vector3.zero, 1.0f);
+        completed = true;
+        if ((!inst4) && (!submission1.inst4) && (!submission2.inst4))
+        {
+            soundManager.PlaySound("Ins4L1");
+            StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
+            inst4 = true;
         }
     }
 }

@@ -17,7 +17,7 @@ public class CambiaInstruccionScript : MonoBehaviour
         if (col.name.StartsWith("submision") && !ins3) 
         {
             soundManager.PlaySound("Ins3L1");
-            StartCoroutine(soundManager.CambiarInstruccionPantalla("Ins3L1", "3Ins", "", 0, 2, 0));
+            StartCoroutine(soundManager.ChangeScreenInstruction("Ins3L1", "3Ins", "", 0, 2, 0));
             ins3 = true;
         }
     }

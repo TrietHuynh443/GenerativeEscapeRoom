@@ -1,9 +1,7 @@
-﻿
-
-using UnityEngine.UI;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -56,13 +54,13 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         soundManager = GameObject.FindObjectOfType<SoundManager>();
-    }  
+    }
 
     void Update()
     {
-        if(!_canPlay)
+        if (!_canPlay)
             StartCoroutine(CheckRequirementPlay());
-        if(nivel==5 && turnOnPC)
+        if (nivel == 5 && turnOnPC)
         {
             WinGame();
         }
@@ -87,7 +85,7 @@ public class GameController : MonoBehaviour
             tUsuario.SetActive(true);
             tPC.SetActive(false);
         }
-        else if(turnOnPC)
+        else if (turnOnPC)
         {
             tPC.SetActive(true);
             tUsuario.SetActive(false);
@@ -101,45 +99,47 @@ public class GameController : MonoBehaviour
 
     IEnumerator CheckRequirementPlay()
     {
-        if((submision0.completed) && (submision1.completed) && (submision2.completed))
+        if ((submision0.completed) && (submision1.completed) && (submision2.completed))
         {
             if (!completedSound)
             {
                 completedSound = true;
                 AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
-                yield return new WaitForSeconds(3);    
-                completedSound = false;    
+                yield return new WaitForSeconds(3);
+                completedSound = false;
             }
             misionRequisitoJugar.SetActive(false);
             _canPlay = true;
-            Invoke("ButtonPlay", 2.0f);
+            Debug.LogWarning($"CheckRequirementPlay");
+            Invoke("ButtonPlay", 1.0f);
         }
     }
 
     void ButtonPlay()
     {
+        Debug.LogWarning($"Button Play");
+
         playable = true;
         buttons.SetActive(false);
         btnPlay.SetActive(true);
         submision0.completed = false;
-        if(!ins6)
+        if (!ins6)
         {
             soundManager.PlaySound("Ins6L1");
             StartCoroutine(soundManager.ChangeScreenInstruction("Ins6L1", "6Ins", "", 0, 4, 0));
             ins6 = true;
         }
-        else if(!firstTime)
+        else if (!firstTime)
         {
             soundManager.PlaySound("Ins7L1");
             StartCoroutine(soundManager.ChangeScreenInstruction("Ins6L1", "7Ins", "", 0, 2, 0));
             soundManager.arrow.SetActive(false);
         }
-
     }
 
     void FillRandomList()
     {
-        for(int i = 0; i <= 1000; i++)
+        for (int i = 0; i <= 1000; i++)
         {
             RandomList.Add(Random.Range(0, 4));
         }
@@ -183,7 +183,6 @@ public class GameController : MonoBehaviour
             Invoke("TurnOnPC", 3.0f);
         }
         StartCoroutine(CheckSphereShift());
-
     }
 
     public void PlayUser(int idBtn)
@@ -227,15 +226,14 @@ public class GameController : MonoBehaviour
             tPC.SetActive(false);
             tUsuario.SetActive(true);
             soundManager.activateAnimation("Ins9L1");
-            
+
             firstTime = false;
-            
+
             yield return new WaitForSeconds(9);
             soundManager.arrow.SetActive(false);
             tPC.SetActive(false);
             tUsuario.SetActive(false);
         }
-       
 
         userShift = false;
         turnOnPC = true;
@@ -247,7 +245,6 @@ public class GameController : MonoBehaviour
         Invoke("ShowElementsPlay", 2.0f);
         Invoke("TurnOnPC", 4.0f);
     }
-
 
     void ShowElementsPlay()
     {

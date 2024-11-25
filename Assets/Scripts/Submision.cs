@@ -26,7 +26,7 @@ public class Submision : MonoBehaviour
 #if UNITY_EDITOR_WIN
         if (Input.GetKey(KeyCode.Space))
         {
-            Success();
+            CheatSuccess();
         }
 #endif
     }
@@ -53,5 +53,13 @@ public class Submision : MonoBehaviour
             StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
             inst4 = true;
         }
+    }
+
+    private void CheatSuccess()
+    {
+        completed = true;
+        // soundManager.PlaySound("Ins4L1");
+        // StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
+        // inst4 = true;
     }
 }

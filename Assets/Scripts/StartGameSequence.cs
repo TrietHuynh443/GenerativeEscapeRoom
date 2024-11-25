@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StartGameSequence : MonoBehaviour
 {
-
     public float intensityLight;
     public Light Light;
     public AudioClip sound;
@@ -17,9 +16,18 @@ public class StartGameSequence : MonoBehaviour
     {
         intensityLight = Light.intensity;
         pTouched = false;
+    }
+
+    void Update()
+    {
 #if UNITY_EDITOR_WIN
-    Debug.Log("StartGameSequence started in editor mode");
-    Activate();
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("StartGameSequence started in editor mode");
+            pTouched = true;
+            Activate();
+            pTouched = false;
+        }
 #endif
     }
 
@@ -30,8 +38,8 @@ public class StartGameSequence : MonoBehaviour
         anim.SetBool("press", false);
     }
 
-    public void Activate() {
-        
+    public void Activate()
+    {
         Light.intensity = intensityLight;
         Light.gameObject.SetActive(true);
         StartCoroutine(AnimPlay());
@@ -45,9 +53,8 @@ public class StartGameSequence : MonoBehaviour
         {
             pTouched = true;
             Activate();
-            //yield return new WaitForSeconds(3);    
-            pTouched = false;    
+            //yield return new WaitForSeconds(3);
+            pTouched = false;
         }
     }
-
 }

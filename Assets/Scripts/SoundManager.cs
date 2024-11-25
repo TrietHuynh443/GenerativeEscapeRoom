@@ -48,7 +48,7 @@ public class SoundManager : MonoBehaviour
         yield return new WaitForSeconds(secsImagen1);
         screen.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nameInstruction) as Texture;
 
-        if(!(nameInstruction2.Equals("")))
+        if(!nameInstruction2.Equals(""))
         {
             yield return new WaitForSeconds(secsImagen2);
             screen.GetComponent<Renderer>().material.mainTexture = Resources.Load("RecursosTutoriales/"+ nameInstruction2) as Texture;

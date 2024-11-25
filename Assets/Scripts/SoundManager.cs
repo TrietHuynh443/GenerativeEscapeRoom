@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : UnitySingleton<SoundManager>
 {
     public static AudioClip Ins1L1, Ins2L1, Ins3L1, 
     Ins4L1, Ins5L1, Ins6L1, Ins7L1, Ins8L1, Ins9L1, Ins1L2, Ins2L2, Ins3L2, Ins4L2, Ins5L2, Ins6L2;
@@ -13,8 +13,9 @@ public class SoundManager : MonoBehaviour
     public GameObject arrow;
     public Animator animArrow;
 
-    void Start()
+    protected override void SingletonStarted()
     {
+        base.SingletonStarted();
         Ins1L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins1L1");
         Ins2L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins2L1");
         Ins3L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins3L1");

@@ -32,6 +32,14 @@ public class TransportadorNivel : MonoBehaviour
         Btnlevel2.SetActive(false);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            StartCoroutine(OnTriggerEnter(null));
+        }
+    }
+
     IEnumerator OnTriggerEnter(Collider col)
     {
         if (!pTouched)

@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
     {
         if (!_canPlay)
             StartCoroutine(CheckRequirementPlay());
-        if (nivel == 5 && turnOnPC)
+        if ((nivel == 5 && turnOnPC) || Input.GetKeyDown(KeyCode.Return))
         {
             WinGame();
         }
@@ -148,12 +148,13 @@ public class GameController : MonoBehaviour
 
     void TurnOnPC()
     {
+        Debug.Log("TurnOnPC");  
         if (listFull && turnOnPC)
         {
             //print("NIVEL "+ nivel +" entra, i= "+ contador + " === BTN " +ListaAleatoria[contador]);
 
             btns[RandomList[counter]].Activar();
-            if (counter >= nivel)
+            if (counter >= nivel || Input.GetKeyDown(KeyCode.Space))
             {
                 nivel++;
                 ChangeShift();
@@ -168,14 +169,17 @@ public class GameController : MonoBehaviour
 
     public void ChangeShift()
     {
+        Debug.Log("ChangeShift");
         AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
         if (turnOnPC)
         {
+            Debug.Log("ChangeShift TurnOnPC");
             turnOnPC = false;
             userShift = true;
         }
         else
         {
+            Debug.Log("ChangeShift UserShift");
             turnOnPC = true;
             userShift = false;
             counter = 0;

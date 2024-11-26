@@ -21,7 +21,7 @@ public class StartGameSequence : MonoBehaviour
     void Update()
     {
 #if UNITY_EDITOR_WIN
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("StartGameSequence started in editor mode");
             pTouched = true;

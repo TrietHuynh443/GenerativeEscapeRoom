@@ -24,7 +24,7 @@ public class Submision : MonoBehaviour
     public void Update()
     {
 #if UNITY_EDITOR_WIN
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             CheatSuccess();
         }

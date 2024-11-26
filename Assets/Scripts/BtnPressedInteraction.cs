@@ -44,6 +44,7 @@ public class BtnPressedInteraction : MonoBehaviour
 
             if (controlador.userShift)
             {
+                Debug.Log("Hi from Activar");
                 print("mi turno ");
                 controlador.PlayUser(btnID);
             }

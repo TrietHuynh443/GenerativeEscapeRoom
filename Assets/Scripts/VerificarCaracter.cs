@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class VerificarCaracter : MonoBehaviour
 {
-    public bool completada = false;
-    public AudioClip correcto;
+    public bool completed = false;
+    public AudioClip correct;
     public AudioClip incorrecto;
     public GameObject prefabABCMonstruos;
     public GameObject prefabABCBloques;
@@ -14,20 +14,20 @@ public class VerificarCaracter : MonoBehaviour
 
     private void Start()
     {
-        correcto = Resources.Load<AudioClip>("Sonidos/positive-beeps");
+        correct = Resources.Load<AudioClip>("Sonidos/positive-beeps");
         incorrecto = Resources.Load<AudioClip>("Sonidos/negative-beeps");
         prefabABCMonstruos = (GameObject)Resources.Load("Prefabs/Alfabeto", typeof(GameObject));
     }
 
     IEnumerator OnTriggerEnter(Collider col)
     {
-        if (((col.name.ToLower()).StartsWith(this.name)) || (col.name == ("block-"+this.name)) && !completada)
+        if (((col.name.ToLower()).StartsWith(this.name)) || (col.name == ("block-"+this.name)) && !completed)
         {
             if (!pTouched)
             {
                 pTouched = true;
                 col.gameObject.transform.SetParent(this.transform);
-                caracterCorrecto(col.name);
+                CharacterCorrect(col.name);
                 yield return new WaitForSeconds(3);    
                 pTouched = false;    
                 print("Off "+ pTouched);
@@ -37,20 +37,20 @@ public class VerificarCaracter : MonoBehaviour
         {
             if (!(col.tag == "mano"))
             {
-                completada = false;
+                completed = false;
                 AudioSource.PlayClipAtPoint(incorrecto, Vector3.zero, 1.0f);
                 this.gameObject.GetComponent<Renderer>().material.color = Color.red;
             }
         }
     }
 
-    void caracterCorrecto(string nombre)
+    void CharacterCorrect(string name)
     {
-        AudioSource.PlayClipAtPoint(correcto, Vector3.zero, 1.0f);
-        completada = true;
-        this.gameObject.GetComponent<Renderer>().material.color = Color.green;
-        CrearDuplicado(nombre);
-        GameObject.Find("Controlador").GetComponent<VerificadorPalabras>().completada++;
+        AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
+        completed = true;
+        gameObject.GetComponent<Renderer>().material.color = Color.green;
+        CrearDuplicado(name);
+        GameObject.Find("Controlador").GetComponent<WordChecker>().completed++;
     }
 
 

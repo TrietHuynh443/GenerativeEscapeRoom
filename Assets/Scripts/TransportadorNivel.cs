@@ -54,7 +54,7 @@ public class TransportadorNivel : MonoBehaviour
             animPuertaCuarto.SetBool("abrir", true);
             btnJugar.SetActive(false);
             soundManager.PlaySound("Ins1L2");
-            StartCoroutine(soundManager.CambiarInstruccionPantalla("Ins1L2", "Ins1L2", "", 0, 0, 0));
+            StartCoroutine(soundManager.ChangeScreenInstruction("Ins1L2", "Ins1L2", "", 0, 0, 0));
             yield return new WaitForSeconds(13);
             soundManager.PlaySound("Ins2L2");
             StartCoroutine(soundManager.CambiarInstruccionPantalla2("Ins2L2", 0, "Ins2L2", 0));

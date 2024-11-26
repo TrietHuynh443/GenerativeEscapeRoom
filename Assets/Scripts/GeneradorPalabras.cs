@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneradorPalabras : MonoBehaviour
+public class WordGenerator : MonoBehaviour
 {
-    public List<string> palabras;
+    public List<string> words;
 
-    public string CambiarPalabra(int siguente)
+    public string ChangeWord(int next)
     {
-        return palabras[siguente];
+        return words[next];
     }
 }

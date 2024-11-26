@@ -11,7 +11,7 @@ public class BtnPressedInteraction : MonoBehaviour
     public bool desactivando;
     public bool desactivado;
     public AudioClip sonido;
-    public ControladorJuego controlador;
+    public GameController controlador;
     public Animator anim;
 
     private bool pTouched = false;
@@ -33,7 +33,7 @@ public class BtnPressedInteraction : MonoBehaviour
 
     public void Activar() {
         
-        if(controlador.jugable)
+        if(controlador.playable)
         {
             //print("btnID "+btnID);
             desactivado = false;
@@ -42,10 +42,10 @@ public class BtnPressedInteraction : MonoBehaviour
             Luz.gameObject.SetActive(true);
             StartCoroutine(AnimPlay());
 
-            if (controlador.turnoUsuario)
+            if (controlador.userShift)
             {
                 print("mi turno ");
-                controlador.JuegaUsuario(btnID);
+                controlador.PlayUser(btnID);
             }
 
             AudioSource.PlayClipAtPoint(sonido, Vector3.zero, 1.0f);
@@ -73,7 +73,7 @@ public class BtnPressedInteraction : MonoBehaviour
 
     IEnumerator OnTriggerEnter()
     {
-        if (!pTouched && (controlador.turnoUsuario))
+        if (!pTouched && (controlador.userShift))
         {
             pTouched = true;
             Activar();

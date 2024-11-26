@@ -3,51 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class VerificadorPalabras : MonoBehaviour
+public class WordChecker : MonoBehaviour
 {
 
-    private List<GameObject> bloques;
+    private List<GameObject> blocks;
     public GameObject gOPrefab;
     public float xI;
     public float yI;
     public float zI;
     public float espacio = 0.3f;
 
-    public int completada = 0;
+    public int completed = 0;
     private string palabra;
     public int palabraActual = 0;
-    public GeneradorPalabras generadorPalabras;
+    public WordGenerator wordsGenerator;
 
     bool primeraVez = true;
     private SoundManager soundManager;
 
     void Awake()
     {
-        soundManager = GameObject.FindObjectOfType<SoundManager>();
+        soundManager = FindObjectOfType<SoundManager>();
     }
 
     void Start()
     {
-        empezarJuego();
+        StartGame();
     }
 
     void Update()
     {
         //print(completada+" = "+palabra.Length);
-        if(completada == palabra.Length)
+        if(completed == palabra.Length)
         {
             palabraActual++;
             destruirBloquesPalAnterior();
-            empezarJuego();
+            StartGame();
             Invoke("Jugar", 2.0f);
         }
     }
 
-    public void empezarJuego()
+    public void StartGame()
     {
-        completada = 0;
-        palabra = generadorPalabras.CambiarPalabra(palabraActual);
-        bloques = new List<GameObject>();
+        completed = 0;
+        palabra = wordsGenerator.ChangeWord(palabraActual);
+        blocks = new List<GameObject>();
         LlenarGameObjectsVacios();
     }
 
@@ -58,10 +58,10 @@ public class VerificadorPalabras : MonoBehaviour
         char[] arr = palabra.ToCharArray(0, palabra.Length);
         for (int i = 0; i < arr.Length; i++)
         {
-            bloques[i] = Instantiate(gOPrefab, new Vector3((xtemp += espacio), yI, zI), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
+            blocks[i] = Instantiate(gOPrefab, new Vector3((xtemp += espacio), yI, zI), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
             //gOModelo.transform.localScale += new Vector3(3f, 3f, 3f);
-            bloques[i].name = "" + arr[i];
-            bloques[i].AddComponent<VerificarCaracter>();
+            blocks[i].name = "" + arr[i];
+            blocks[i].AddComponent<VerificarCaracter>();
         }
         if(primeraVez)
         {
@@ -91,7 +91,7 @@ public class VerificadorPalabras : MonoBehaviour
     {
         for (int i = 0; i < palabra.Length; i++)
         {
-            bloques.Add(gOPrefab);
+            blocks.Add(gOPrefab);
         }
     }
 
@@ -99,7 +99,7 @@ public class VerificadorPalabras : MonoBehaviour
     {
         for (int i = 0; i < palabra.Length; i++)
         {
-            Destroy(bloques[i]);
+            Destroy(blocks[i]);
         }
     }
 
@@ -109,11 +109,11 @@ public class VerificadorPalabras : MonoBehaviour
     {       
             for (int i = 0; i < palabra.Length; i++)
             {
-                if(bloques[i].gameObject.GetComponent<VerificarCaracter>()!=null)
+                if(blocks[i].gameObject.GetComponent<VerificarCaracter>()!=null)
                 {
-                    if(bloques[i].gameObject.GetComponent<VerificarCaracter>().completada)
+                    if(blocks[i].gameObject.GetComponent<VerificarCaracter>().completed)
                     {
-                        completada++;
+                        completed++;
                     }
                 }
             }       

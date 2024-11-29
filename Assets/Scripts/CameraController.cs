@@ -12,11 +12,11 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-// #if UNITY_EDITOR_WIN
-//         _cheatCamera.SetActive(true);
-// #else
-//         _cheatCamera.SetActive(false);
-//         _oculusCamera.SetActive(true);
-// #endif
+#if UNITY_EDITOR_WIN
+        _cheatCamera.SetActive(true);
+#else
+         _cheatCamera.SetActive(false);
+         _oculusCamera.SetActive(true);
+#endif
     }
 }

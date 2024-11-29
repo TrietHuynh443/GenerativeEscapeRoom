@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
 
     public Text gameOver;
 
-    public AudioClip incorrecto;
+    public AudioClip incorrect;
     public AudioClip correct;
     public AudioClip nb;
 
@@ -194,7 +194,7 @@ public class GameController : MonoBehaviour
         // print(" entra, j= "+ contadorUsusario + " === BTN " +ListaAleatoria[contador]);
         if (idBtn != RandomList[contadorUsusario])
         {
-            AudioSource.PlayClipAtPoint(incorrecto, Vector3.zero, 2.0f);
+            AudioSource.PlayClipAtPoint(incorrect, Vector3.zero, 2.0f);
             userShift = false;
             turnOnPC = false;
             playable = false;

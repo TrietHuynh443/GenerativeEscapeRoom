@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class TransportadorNivel : MonoBehaviour
+public class ConveyorLevel : MonoBehaviour
 {
     //public string levelToLoad;
     public Animator anim;
@@ -10,10 +10,10 @@ public class TransportadorNivel : MonoBehaviour
     private bool pTouched = false;
     public AudioClip sonidoPing;
     public GameObject Btnlevel1;
-    // public GameObject Btnlevel2;
+    public GameObject Btnlevel2;
     public GameObject level1;
-    // public GameObject level2;
-    // public Animator animPuertaCuarto;
+    public GameObject level2;
+    public Animator animPuertaCuarto;
 
     private SoundManager soundManager;
     // public GameObject btnJugar;
@@ -29,7 +29,7 @@ public class TransportadorNivel : MonoBehaviour
         anim.enabled = true;
         anim.SetBool("abrir", false);
         anim.SetBool("cerrar", false);
-        // Btnlevel2.SetActive(false);
+        Btnlevel2.SetActive(false);
     }
 
     void Update()
@@ -50,12 +50,12 @@ public class TransportadorNivel : MonoBehaviour
             anim.SetBool("cerrar", true);
             yield return new WaitForSeconds(2);
             level1.SetActive(false);
-            // level2.SetActive(true);
+            level2.SetActive(true);
             yield return new WaitForSeconds(6);
             MusicSource.Stop();
             MusicSource.PlayOneShot(sonidoPing);
             Btnlevel1.SetActive(false);
-            // Btnlevel2.SetActive(true);
+            Btnlevel2.SetActive(true);
             anim.SetBool("abrir", true);
             yield return new WaitForSeconds(2.1f);
             puertaElevador.SetActive(false);

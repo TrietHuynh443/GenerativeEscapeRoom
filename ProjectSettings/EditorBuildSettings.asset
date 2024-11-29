@@ -5,9 +5,17 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/_EscapeRoom.unity
     guid: ff4e04d1235f8e44e9755de36ddbbbd9
+  - enabled: 0
+    path: Assets/Scenes/_EscapeRoom Thanh.unity
+    guid: f0dc3c7c1bbd58341bb28677efb92965
+  - enabled: 1
+    path: Assets/Scenes/_EscapeRoom Oculus.unity
+    guid: f196d7ccb7f9e064bad68457eb558770
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9d793536df9a65046bdd2e92be6fccb5,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: eb7983732670858428cbe904fbf247a5,
       type: 2}

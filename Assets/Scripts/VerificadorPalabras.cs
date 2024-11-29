@@ -46,7 +46,8 @@ public class WordChecker : MonoBehaviour
     public void StartGame()
     {
         completed = 0;
-        palabra = wordsGenerator.ChangeWord(palabraActual);
+        // palabra = wordsGenerator.ChangeWord(palabraActual);
+        palabra = wordsGenerator.ChangeWord(1);
         blocks = new List<GameObject>();
         LlenarGameObjectsVacios();
     }

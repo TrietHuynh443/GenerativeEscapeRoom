@@ -3,65 +3,135 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using static System.Activator;
 
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public class InjectorAttribute : Attribute
 {
-    
 }
 
-public class DependenciesProvider : UnitySingleton<DependenciesProvider>
+public enum Lifetime
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Transient,
+    Singleton
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private Dictionary<Type, object> _dependencies = new Dictionary<Type, object>();
+public class DependenciesProvider : MonoBehaviour
+{
+    private readonly Dictionary<Type, object> _singletons = new Dictionary<Type, object>();
+    private readonly Dictionary<Type, Func<object>> _registrations = new Dictionary<Type, Func<object>>();
 
-    private object Get(Type type)
+    // Register a dependency with a specific lifetime
+    public void Register<T>(Func<T> factory, Lifetime lifetime = Lifetime.Singleton) where T : class
     {
-        if (_dependencies.ContainsKey(type))
+        if (lifetime == Lifetime.Singleton)
         {
-            throw new Exception("Dependency Injection Error");
+            _registrations[typeof(T)] = () =>
+            {
+                if (!_singletons.ContainsKey(typeof(T)))
+                {
+                    _singletons[typeof(T)] = factory();
+                }
+                return _singletons[typeof(T)];
+            };
         }
-        var instance = CreateInstance(type);
-        _dependencies.Add(type, instance);
-        return instance;
+        else
+        {
+            _registrations[typeof(T)] = () => factory();
+        }
     }
-    
-    public object Inject(object dependant)
+
+    public void RegisterSingleton<T>(T instance) where T : class
+    {
+        _singletons[typeof(T)] = instance;
+    }
+
+    // Get an instance of a dependency
+    public T Resolve<T>() where T : class
+    {
+        return (T)Resolve(typeof(T));
+    }
+
+    public object Resolve(Type type)
+    {
+        if (_registrations.TryGetValue(type, out var factory))
+        {
+            return factory();
+        }
+
+        throw new Exception($"No registration for type {type.FullName}");
+    }
+
+    // Inject dependencies into fields and properties marked with [Injector]
+    public void Inject(object dependant)
     {
         var type = dependant.GetType();
         while (type != null)
         {
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic 
-                                                            | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+            // Inject fields
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic
+                                         | BindingFlags.DeclaredOnly | BindingFlags.Instance);
             foreach (var field in fields)
             {
-                if (field.GetCustomAttribute<InjectorAttribute>(false) == null) { continue; }
-
-                field.SetValue(dependant, Get(field.FieldType));
+                if (field.GetCustomAttribute<InjectorAttribute>(false) != null)
+                {
+                    var dependency = Resolve(field.FieldType);
+                    field.SetValue(dependant, dependency);
+                }
             }
+
+            // Inject properties
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic
+                                                 | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+            foreach (var property in properties)
+            {
+                if (property.GetCustomAttribute<InjectorAttribute>(false) != null && property.CanWrite)
+                {
+                    var dependency = Resolve(property.PropertyType);
+                    property.SetValue(dependant, dependency);
+                }
+            }
+
             type = type.BaseType;
         }
-        return dependant;
-    }
-    
-    public delegate object Delegate(DependenciesProvider dependant);
-    
-    public static Delegate FromClass<T>() where T : class, new ()
-    {
-        return (dependant) =>
-        {
-            return dependant.Inject(CreateInstance<T>());
-        };
     }
 }
 
+// Example usage
+
+public interface IService
+{
+    void DoSomething();
+}
+
+public class Service : IService
+{
+    public void DoSomething()
+    {
+        Debug.Log("Service is doing something!");
+    }
+}
+
+public class Consumer
+{
+    [Injector]
+    private IService _service;
+
+    public void UseService()
+    {
+        _service?.DoSomething();
+    }
+}
+
+public class DIExample : MonoBehaviour
+{
+    private void Start()
+    {
+        var provider = new DependenciesProvider();
+        provider.Register<IService>(() => new Service());
+        provider.Register<Consumer>(() => new Consumer());
+
+        var consumer = provider.Resolve<Consumer>();
+        provider.Inject(consumer);
+        consumer.UseService();
+    }
+}

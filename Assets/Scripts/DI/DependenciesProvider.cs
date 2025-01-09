@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-public class InjectorAttribute : Attribute
-{
-}
+using DI;
 
 public enum Lifetime
 {
@@ -94,44 +91,57 @@ public class DependenciesProvider : MonoBehaviour
             type = type.BaseType;
         }
     }
+    
+    /// <summary>
+    /// Automatically inject dependencies into all active MonoBehaviours in the scene.
+    /// </summary>
+    public void AutoInjectAll()
+    {
+        var monoBehaviours = FindObjectsOfType<MonoBehaviour>();
+
+        foreach (var monoBehaviour in monoBehaviours)
+        {
+            Inject(monoBehaviour);
+        }
+    }
 }
 
 // Example usage
 
-public interface IService
-{
-    void DoSomething();
-}
+// public interface IService
+// {
+//     void DoSomething();
+// }
 
-public class Service : IService
-{
-    public void DoSomething()
-    {
-        Debug.Log("Service is doing something!");
-    }
-}
+// public class Service : IService
+// {
+//     public void DoSomething()
+//     {
+//         Debug.Log("Service is doing something!");
+//     }
+// }
 
-public class Consumer
-{
-    [Injector]
-    private IService _service;
+// public class Consumer
+// {
+//     [Injector]
+//     private IService _service;
+//
+//     public void UseService()
+//     {
+//         _service?.DoSomething();
+//     }
+// }
 
-    public void UseService()
-    {
-        _service?.DoSomething();
-    }
-}
-
-public class DIExample : MonoBehaviour
-{
-    private void Start()
-    {
-        var provider = new DependenciesProvider();
-        provider.Register<IService>(() => new Service());
-        provider.Register<Consumer>(() => new Consumer());
-
-        var consumer = provider.Resolve<Consumer>();
-        provider.Inject(consumer);
-        consumer.UseService();
-    }
-}
+// public class DIExample : MonoBehaviour
+// {
+//     private void Start()
+//     {
+//         var provider = new DependenciesProvider();
+//         provider.Register<IService>(() => new Service());
+//         provider.Register<Consumer>(() => new Consumer());
+//
+//         var consumer = provider.Resolve<Consumer>();
+//         provider.Inject(consumer);
+//         consumer.UseService();
+//     }
+// }

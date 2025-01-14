@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEngine;
 
 using DI;
+using Interface.Services;
 
 public enum Lifetime
 {
@@ -20,13 +21,28 @@ public class DependenciesProvider : MonoBehaviour
     // Register a dependency with a specific lifetime
     public void Register<T>(Func<T> factory, Lifetime lifetime = Lifetime.Singleton) where T : class
     {
+        
         if (lifetime == Lifetime.Singleton)
         {
             _registrations[typeof(T)] = () =>
             {
                 if (!_singletons.ContainsKey(typeof(T)))
                 {
-                    _singletons[typeof(T)] = factory();
+                    if (typeof(MonoService).IsAssignableFrom(typeof(T)))
+                    {
+                        var newInstance = new GameObject();
+                        // var newInstance = Instantiate(newGameObject, transform);
+                        newInstance.AddComponent(typeof(T));
+                        newInstance.name = typeof(T).Name;
+                        newInstance.transform.SetParent(transform);
+                        _singletons[typeof(T)] = newInstance.GetComponent<T>();
+                        Debug.Log($"Registered new {typeof(T).Name}");
+                        Inject(_singletons[typeof(T)]); // inject all services into mono object
+                    }
+                    else
+                    {
+                        _singletons[typeof(T)] = factory();
+                    }
                 }
                 return _singletons[typeof(T)];
             };
@@ -35,8 +51,6 @@ public class DependenciesProvider : MonoBehaviour
         {
             _registrations[typeof(T)] = () => factory();
         }
-        
-        Inject(_registrations[typeof(T)]);
     }
 
     public void RegisterSingleton<T>(T instance) where T : class
@@ -52,10 +66,19 @@ public class DependenciesProvider : MonoBehaviour
 
     public object Resolve(Type type)
     {
-        if (_registrations.TryGetValue(type, out var factory))
+        if (typeof(MonoService).IsAssignableFrom(type) && _singletons.TryGetValue(type, out var resolve))
         {
-            return factory();
+            return resolve;
         }
+        if (_registrations.ContainsKey(type))
+        {
+            
+            if (_registrations.TryGetValue(type, out var factory))
+            {
+                return factory();
+            }
+        }
+    
 
         throw new Exception($"No registration for type {type.FullName}");
     }
@@ -88,6 +111,11 @@ public class DependenciesProvider : MonoBehaviour
                     var dependency = Resolve(property.PropertyType);
                     property.SetValue(dependant, dependency);
                 }
+                //
+                // if (typeof(MonoService).IsAssignableFrom(property.PropertyType))
+                // {
+                //     Inject(property);
+                // }
             }
 
             type = type.BaseType;

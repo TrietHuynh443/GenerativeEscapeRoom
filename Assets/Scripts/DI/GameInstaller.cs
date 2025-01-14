@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Interface.MonoBehaviorServices;
 using Interface.Services;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ namespace DI
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
             _dependenciesProvider.Register<ILogService>(() => new LogService());
+            _dependenciesProvider.Register<ExampleMonoServices>(null);
             //Add order dependencies here
         }
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

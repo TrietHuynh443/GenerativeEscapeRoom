@@ -35,6 +35,8 @@ public class DependenciesProvider : MonoBehaviour
         {
             _registrations[typeof(T)] = () => factory();
         }
+        
+        Inject(_registrations[typeof(T)]);
     }
 
     public void RegisterSingleton<T>(T instance) where T : class
@@ -57,7 +59,7 @@ public class DependenciesProvider : MonoBehaviour
 
         throw new Exception($"No registration for type {type.FullName}");
     }
-
+    
     // Inject dependencies into fields and properties marked with [Injector]
     public void Inject(object dependant)
     {
@@ -81,7 +83,7 @@ public class DependenciesProvider : MonoBehaviour
                                                  | BindingFlags.DeclaredOnly | BindingFlags.Instance);
             foreach (var property in properties)
             {
-                if (property.GetCustomAttribute<InjectorAttribute>(false) != null && property.CanWrite)
+                if (property.GetCustomAttribute<InjectorAttribute>(false) != null)
                 {
                     var dependency = Resolve(property.PropertyType);
                     property.SetValue(dependant, dependency);

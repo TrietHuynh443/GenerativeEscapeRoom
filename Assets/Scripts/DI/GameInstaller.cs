@@ -1,4 +1,5 @@
 ﻿using System;
+using Interface.Services;
 using UnityEngine;
 
 namespace DI
@@ -11,7 +12,7 @@ namespace DI
         private void Awake()
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
-            _dependenciesProvider.Register<IService>(() => new LogService());
+            _dependenciesProvider.Register<ILogService>(() => new LogService());
             //Add order dependencies here
         }
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -24,10 +25,13 @@ namespace DI
             var gameInstallerGameObject = new GameObject("GameInstaller");
             _instance = gameInstallerGameObject.AddComponent<GameInstaller>();
 
-            // Make sure it persists across scenes
-            GameObject.DontDestroyOnLoad(gameInstallerGameObject);
+            DontDestroyOnLoad(gameInstallerGameObject);
         }
-        
+
+        private void Start()
+        {
+            _dependenciesProvider.AutoInjectAll();
+        }
     } 
     // public class DIExample : MonoBehaviour
 // {

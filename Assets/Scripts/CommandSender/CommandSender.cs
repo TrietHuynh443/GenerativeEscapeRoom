@@ -12,7 +12,7 @@ namespace CommandSender
         where TRequest : BaseRequest
         where TResponse : BaseResponse
     {
-        protected readonly string BaseUrl  = "https://localhost:5000/";
+        protected readonly string BaseUrl  = "https://localhost:8000";
         protected string Url { get; set; }
 
         public async UniTask<TResponse> SendCommand(TRequest request)
@@ -28,11 +28,13 @@ namespace CommandSender
             }
         }
 
-        private async UniTask<TResponse> DoGet(TRequest request)
+        protected virtual async UniTask<TResponse> DoGet(TRequest request)
         {
             var queryString = request.ToQuery();
             var url = $"{Url}?{queryString}";
             using var webRequest = UnityWebRequest.Get(url);
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             try
             {
                 await webRequest.SendWebRequest().ToUniTask();
@@ -54,10 +56,12 @@ namespace CommandSender
             return null;
         }
 
-        private async UniTask<TResponse> DoPost(UpdateRequest request)
+        protected virtual async UniTask<TResponse> DoPost(UpdateRequest request)
         {
             var bodyRaw = request.ToBody();
             using var webRequest = new UnityWebRequest(Url, UnityWebRequest.kHttpVerbPOST);
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             try
             {
                 webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);

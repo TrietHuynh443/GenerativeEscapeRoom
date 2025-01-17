@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HttpCommand
 {
@@ -28,6 +27,11 @@ namespace HttpCommand
 
     public class CreateModelResponse : BaseResponse
     {
-        
+        [JsonProperty("model")]
+        public byte[] Model { get; set; }
+        [JsonProperty("textureData")]
+        public byte[] TextureData { get; set; }
+        [JsonProperty("mtlData")]
+        public byte[] MtlData { get; set; }
     }
 }

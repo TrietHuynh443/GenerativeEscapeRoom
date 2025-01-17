@@ -1,27 +1,19 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 public class InteractableGameObject : MonoBehaviour
 {
-    private Vector2 startMousePosition;
-    private bool isDragging = false;
-
-    void Update()
+    // Rotate using DOTween when the mouse is dragged
+    public void DoRotate(Vector2 originMousePosition, Vector2 targetMousePosition)
     {
-        if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
-        {
-            startMousePosition = Input.mousePosition;
-            isDragging = true;
-        }
-        else if (Input.GetMouseButtonUp(0)) // Left mouse button released
-        {
-            isDragging = false;
-        }
+        Vector2 delta = targetMousePosition - originMousePosition;
 
-        if (isDragging)
-        {
-            Vector2 currentMousePosition = Input.mousePosition;
-            GetComponent<InteractableGameObject>().DoRotate(startMousePosition, currentMousePosition);
-            startMousePosition = currentMousePosition; // Update for continuous rotation
-        }
+        float sensitivity = 0.1f;
+        float rotationX = delta.y * sensitivity;
+        float rotationY = -delta.x * sensitivity;
+
+        Vector3 targetRotation = transform.eulerAngles + new Vector3(rotationX, rotationY, 0);
+
+        transform.DORotate(targetRotation, 0.2f);
     }
 }

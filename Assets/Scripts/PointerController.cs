@@ -18,8 +18,11 @@ namespace DI
             if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
             {
                 InteractableGameObject interactableGameObject = GetInteractableObject();
-                _startMousePosition = Input.mousePosition;
-                _isDragging = true;
+                if (interactableGameObject != null)
+                {
+                    _startMousePosition = Input.mousePosition;
+                    _isDragging = true;
+                }
             }
             else if (Input.GetMouseButtonUp(0)) // Left mouse button released
             {
@@ -41,6 +44,11 @@ namespace DI
         private InteractableGameObject GetInteractableObject()
         {
             var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), _camera.transform.forward, 3f);
+            if (hit.collider != null)
+            {
+                return hit.collider.gameObject.GetComponent<InteractableGameObject>();
+            }
+            return null;
         }
     }
 }

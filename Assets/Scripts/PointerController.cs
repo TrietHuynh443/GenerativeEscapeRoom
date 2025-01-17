@@ -48,22 +48,14 @@ namespace DI
             RaycastHit hit;
 
             // Perform the raycast
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hit, _camera.farClipPlane))
             {
-                // Draw the ray in the scene view for debugging
-                Debug.DrawLine(ray.origin, hit.point, Color.red, 0.2f);
-
-                // Debug log the hit object
                 Debug.Log($"Hit: {hit.collider.name}");
 
                 // Return the InteractableGameObject component if the object is interactable
                 return hit.collider.GetComponent<InteractableGameObject>();
             }
-
-            // If no object is hit, draw the ray to infinity
-            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.2f);
-            Debug.Log("No hit detected");
-
+            
             return null;
         }
     }

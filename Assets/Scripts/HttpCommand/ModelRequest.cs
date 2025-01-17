@@ -17,7 +17,6 @@ namespace HttpCommand
     {
         [JsonProperty("prompt")]
         public string Prompt { get; set; }
-        public string Name { get; set; }
         public override byte[] ToBody()
         {
             var rawBody = JsonConvert.SerializeObject(this);

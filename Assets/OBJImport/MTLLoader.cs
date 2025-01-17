@@ -187,7 +187,7 @@ public class MTLLoader {
                     continue; //invalid args or sth
                 }
 
-                var KdTexture = TryLoadTexture(texturePath);
+                var KdTexture = TryLoadTexture(texturePath); // TODO : check change texture path
                 currentMaterial.SetTexture("_MainTex", KdTexture);
 
                 //set transparent mode if the texture has transparency

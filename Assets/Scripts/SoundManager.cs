@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DI;
 using UnityEngine;
 
 public class SoundManager : UnitySingleton<SoundManager>
@@ -12,7 +13,7 @@ public class SoundManager : UnitySingleton<SoundManager>
 
     public GameObject arrow;
     public Animator animArrow;
-
+    [Injector] private LogService _logService;
     protected override void SingletonStarted()
     {
         base.SingletonStarted();
@@ -38,6 +39,7 @@ public class SoundManager : UnitySingleton<SoundManager>
         PlaySound("Ins1L1");
         StartCoroutine(ChangeScreenInstruction("Ins1L1", "1Ins", "2Ins", 4, 15, 3));
         Debug.Log($"SoundManager Object {gameObject.name}");
+        _logService.Log($"SoundManager Object {gameObject.name}");
     }
 
     public IEnumerator ChangeScreenInstruction(string nombreAnim, string nameInstruction, string nameInstruction2, int secsImagen1, int secsAnim,int secsImagen2)

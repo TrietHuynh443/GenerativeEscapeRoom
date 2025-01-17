@@ -17,8 +17,8 @@ namespace DI
         {
             if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
             {
-                InteractableGameObject interactableGameObject = GetInteractableObject();
-                if (interactableGameObject != null)
+                _interactableGameObject = GetInteractableObject();
+                if (_interactableGameObject != null)
                 {
                     _startMousePosition = Input.mousePosition;
                     _isDragging = true;
@@ -43,11 +43,27 @@ namespace DI
 
         private InteractableGameObject GetInteractableObject()
         {
-            var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), _camera.transform.forward, 3f);
-            if (hit.collider != null)
+            // Cast a ray from the camera to the mouse position
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            // Perform the raycast
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                return hit.collider.gameObject.GetComponent<InteractableGameObject>();
+                // Draw the ray in the scene view for debugging
+                Debug.DrawLine(ray.origin, hit.point, Color.red, 0.2f);
+
+                // Debug log the hit object
+                Debug.Log($"Hit: {hit.collider.name}");
+
+                // Return the InteractableGameObject component if the object is interactable
+                return hit.collider.GetComponent<InteractableGameObject>();
             }
+
+            // If no object is hit, draw the ray to infinity
+            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.2f);
+            Debug.Log("No hit detected");
+
             return null;
         }
     }

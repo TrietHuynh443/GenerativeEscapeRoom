@@ -8,7 +8,7 @@ public class InteractableGameObject : MonoBehaviour
     {
         Vector2 delta = targetMousePosition - originMousePosition;
 
-        float sensitivity = 0.1f;
+        float sensitivity = 1f;
         float rotationX = delta.y * sensitivity;
         float rotationY = -delta.x * sensitivity;
 

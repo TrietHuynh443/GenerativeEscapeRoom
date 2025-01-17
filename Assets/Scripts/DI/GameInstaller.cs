@@ -9,11 +9,14 @@ namespace DI
     {
         private DependenciesProvider _dependenciesProvider;
         private static GameInstaller _instance;
+        [Injector]
+        private readonly PointerController _pointerController;
         private void Awake()
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
             _dependenciesProvider.Register<ILogService>(() => new LogService());
             _dependenciesProvider.Register<ExampleMonoServices>(null);
+            _dependenciesProvider.Register<PointerController>(null);
             //Add order dependencies here
         }
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

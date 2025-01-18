@@ -287,7 +287,164 @@ public class MTLLoader {
         //return our dict
         return mtlDict;
     }
+    
+    public Dictionary<string, Material> Load(Stream input, string texturePath)
+    {
+        var inputReader = new StreamReader(input);
+        var reader = new StringReader(inputReader.ReadToEnd());
 
+        Dictionary<string, Material> mtlDict = new Dictionary<string, Material>();
+        Material currentMaterial = null;
+
+        for (string line = reader.ReadLine(); line != null; line = reader.ReadLine())
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            string processedLine = line.Clean();
+            string[] splitLine = processedLine.Split(' ');
+
+            //blank or comment
+            if (splitLine.Length < 2 || processedLine[0] == '#')
+                continue;
+
+            //newmtl
+            if (splitLine[0] == "newmtl")
+            {
+                string materialName = processedLine.Substring(7);
+
+                var newMtl = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = materialName };
+                mtlDict[materialName] = newMtl;
+                currentMaterial = newMtl;
+
+                continue;
+            }
+
+            //anything past here requires a material instance
+            if (currentMaterial == null)
+                continue;
+
+            //diffuse color
+            if (splitLine[0] == "Kd" || splitLine[0] == "kd")
+            {
+                var currentColor = currentMaterial.GetColor("_Color");
+                var kdColor = OBJLoaderHelper.ColorFromStrArray(splitLine);
+
+                currentMaterial.SetColor("_Color", new Color(kdColor.r, kdColor.g, kdColor.b, currentColor.a));
+                continue;
+            }
+
+            //diffuse map
+            if (splitLine[0] == "map_Kd" || splitLine[0] == "map_kd")
+            {
+                // string texturePath = GetTexPathFromMapStatement(processedLine, splitLine);
+                if(texturePath == null)
+                {
+                    continue; //invalid args or sth
+                }
+
+                var KdTexture = TryLoadTexture(texturePath);
+                currentMaterial.SetTexture("_MainTex", KdTexture);
+
+                //set transparent mode if the texture has transparency
+                if(KdTexture != null && (KdTexture.format == TextureFormat.DXT5 || KdTexture.format == TextureFormat.ARGB32))
+                {
+                    OBJLoaderHelper.EnableMaterialTransparency(currentMaterial);
+                }
+
+                //flip texture if this is a dds
+                if(Path.GetExtension(texturePath).ToLower() == ".dds")
+                {
+                    currentMaterial.mainTextureScale = new Vector2(1f, -1f);
+                }
+
+                continue;
+            }
+
+            //bump map
+            if (splitLine[0] == "map_Bump" || splitLine[0] == "map_bump")
+            {
+                string textureBumpPath = GetTexPathFromMapStatement(processedLine, splitLine);
+                if(textureBumpPath == null)
+                {
+                    continue; //invalid args or sth
+                }
+
+                var bumpTexture = TryLoadTexture(textureBumpPath, true);
+                float bumpScale = GetArgValue(splitLine, "-bm", 1.0f);
+
+                if (bumpTexture != null) {
+                    currentMaterial.SetTexture("_BumpMap", bumpTexture);
+                    currentMaterial.SetFloat("_BumpScale", bumpScale);
+                    currentMaterial.EnableKeyword("_NORMALMAP");
+                }
+
+                continue;
+            }
+
+            //specular color
+            if (splitLine[0] == "Ks" || splitLine[0] == "ks")
+            {
+                currentMaterial.SetColor("_SpecColor", OBJLoaderHelper.ColorFromStrArray(splitLine));
+                continue;
+            }
+
+            //emission color
+            if (splitLine[0] == "Ka" || splitLine[0] == "ka")
+            {
+                currentMaterial.SetColor("_EmissionColor", OBJLoaderHelper.ColorFromStrArray(splitLine, 0.05f));
+                currentMaterial.EnableKeyword("_EMISSION");
+                continue;
+            }
+
+            //emission map
+            if (splitLine[0] == "map_Ka" || splitLine[0] == "map_ka")
+            {
+                string textureEmissionPath = GetTexPathFromMapStatement(processedLine, splitLine);
+                if(textureEmissionPath == null)
+                {
+                    continue; //invalid args or sth
+                }
+
+                currentMaterial.SetTexture("_EmissionMap", TryLoadTexture(textureEmissionPath));
+                continue;
+            }
+
+            //alpha
+            if (splitLine[0] == "d" || splitLine[0] == "Tr")
+            {
+                float visibility = OBJLoaderHelper.FastFloatParse(splitLine[1]);
+                
+                //tr statement is just d inverted
+                if(splitLine[0] == "Tr")
+                    visibility = 1f - visibility;  
+
+                if(visibility < (1f - Mathf.Epsilon))
+                {
+                    var currentColor = currentMaterial.GetColor("_Color");
+
+                    currentColor.a = visibility;
+                    currentMaterial.SetColor("_Color", currentColor);
+
+                    OBJLoaderHelper.EnableMaterialTransparency(currentMaterial);
+                }
+                continue;
+            }
+
+            //glossiness
+            if (splitLine[0] == "Ns" || splitLine[0] == "ns")
+            {
+                float Ns = OBJLoaderHelper.FastFloatParse(splitLine[1]);
+                Ns = (Ns / 1000f);
+                currentMaterial.SetFloat("_Glossiness", Ns);
+            }
+        }
+
+        //return our dict
+        return mtlDict;
+    }
+
+    
     /// <summary>
     /// Loads a *.mtl file
     /// </summary>

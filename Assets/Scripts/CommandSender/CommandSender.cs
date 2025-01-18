@@ -33,6 +33,7 @@ namespace CommandSender
             var queryString = request.ToQuery();
             var url = $"{Url}?{queryString}";
             using var webRequest = UnityWebRequest.Get(url);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             try
@@ -60,6 +61,7 @@ namespace CommandSender
         {
             var bodyRaw = request.ToBody();
             using var webRequest = new UnityWebRequest(Url, UnityWebRequest.kHttpVerbPOST);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             try

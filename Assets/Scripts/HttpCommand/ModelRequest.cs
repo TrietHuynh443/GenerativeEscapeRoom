@@ -13,7 +13,7 @@ namespace HttpCommand
         
     }
 
-    public class CreateModelRequest : UpdateRequest
+    public class CreateModelRequest : BaseRequest
     {
         [JsonProperty("prompt")]
         public string Prompt { get; set; }

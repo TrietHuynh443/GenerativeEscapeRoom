@@ -5,6 +5,7 @@ using Dummiesman;
 using HttpCommand;
 using Interface.Services;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace CommandSender
 {
@@ -13,19 +14,24 @@ namespace CommandSender
         public ModelCommandSender()
         {
             Url = $"{BaseUrl}/create-model";
+            //Test
+            // Url = "https://people.sc.fsu.edu/~jburkardt/data/obj/lamp.obj";
         }
 
         // protected override async UniTask<CreateModelResponse> DoGet(CreateModelRequest request)
         // {
         //     using var unityWebRequest = new UnityWebRequest(Url, UnityWebRequest.kHttpVerbGET);
+        //     unityWebRequest.downloadHandler = new DownloadHandlerBuffer(); // Ensure a download handler is set
         //     unityWebRequest.SetRequestHeader("Content-Type", "application/json");
         //     try
         //     {
+        //         Debug.Log(Url);
         //         await unityWebRequest.SendWebRequest().ToUniTask();
         //         if (unityWebRequest.result != UnityWebRequest.Result.Success)
         //         {
         //             return null;
         //         }
+        //         Debug.Log(unityWebRequest.downloadHandler.text);
         //         // MemoryStream textStream  = new MemoryStream(Encoding.UTF8.GetBytes(unityWebRequest.downloadHandler.text));
         //         return JsonUtility.FromJson<CreateModelResponse>(unityWebRequest.downloadHandler.text);
         //     }
@@ -52,9 +58,10 @@ namespace CommandSender
                     await File.WriteAllBytesAsync(objPath, res.Model);
                     
                     // Save the .png file (if any texture is provided)
+                    string pngPath = string.Empty;
                     if (res.TextureData != null)
                     {
-                        string pngPath = Path.Combine(resourcesPath, $"{name}.png");
+                        pngPath = Path.Combine(resourcesPath, $"{name}.png");
                         File.WriteAllBytes(pngPath, res.TextureData);
                     }
                     MemoryStream modelStream = new MemoryStream(res.Model);
@@ -65,7 +72,7 @@ namespace CommandSender
                         string mtlPath = Path.Combine(resourcesPath, $"{name}.mtl");
                         await File.WriteAllBytesAsync(mtlPath, res.MtlData);
                         var matStream = new MemoryStream(res.MtlData);
-                        model = new OBJLoader().Load(modelStream, matStream);
+                        model = new OBJLoader().Load(modelStream, matStream, texturePath: pngPath);
                     }
                     else
                     {

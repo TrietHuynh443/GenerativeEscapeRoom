@@ -1,6 +1,7 @@
 ﻿using CommandSender;
 using Interface.MonoBehaviorServices;
 using Interface.Services;
+using Manager;
 using UnityEngine;
 
 namespace DI
@@ -13,14 +14,17 @@ namespace DI
         [Injector]
         private readonly PointerController _pointerController;
         [Injector]
-        private readonly IModelCommandSenderService _iModelCommandSender;
+        private readonly GameManager _gameManager;
         private void Awake()
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
             _dependenciesProvider.Register<ILogService>(() => new LogService());
             _dependenciesProvider.Register<IModelCommandSenderService>(() => new ModelCommandSender());
+            _dependenciesProvider.Register<IEventHandlerService>(() => new EventAggregator());
+            
             _dependenciesProvider.Register<ExampleMonoServices>(null);
             _dependenciesProvider.Register<PointerController>(null);
+            _dependenciesProvider.Register<GameManager>(null);
             //Add order dependencies here
         }
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

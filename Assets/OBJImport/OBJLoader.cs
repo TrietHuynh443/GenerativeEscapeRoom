@@ -288,7 +288,15 @@ namespace Dummiesman
         {
             var mtlLoader = new MTLLoader();
             Materials = mtlLoader.Load(mtlInput);
-
+            
+            return Load(input);
+        }
+        
+        public GameObject Load(Stream input, Stream mtlInput, string texturePath)
+        {
+            var mtlLoader = new MTLLoader();
+            Materials = mtlLoader.Load(mtlInput, texturePath);
+            
             return Load(input);
         }
 

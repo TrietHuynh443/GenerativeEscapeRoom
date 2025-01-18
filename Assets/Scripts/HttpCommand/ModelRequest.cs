@@ -17,11 +17,11 @@ namespace HttpCommand
     {
         [JsonProperty("prompt")]
         public string Prompt { get; set; }
-        public override byte[] ToBody()
-        {
-            var rawBody = JsonConvert.SerializeObject(this);
-            return Encoding.UTF8.GetBytes(rawBody);
-        }
+        // public override byte[] ToBody()
+        // {
+        //     var rawBody = JsonConvert.SerializeObject(this);
+        //     return Encoding.UTF8.GetBytes(rawBody);
+        // }
     }
 
     public class CreateModelResponse : BaseResponse

@@ -8,6 +8,12 @@ namespace DI
         private bool _isDragging = false;
         private InteractableGameObject _interactableGameObject;
         private Camera _camera;
+        private bool _isMove;
+        private float _horizontalInput;
+        private float _verticalInput;
+        private InteractableGameObject _curInteractObject;
+        private int _curMousePressed = -1;
+
         private void Start()
         {
             _camera = Camera.main;
@@ -15,7 +21,19 @@ namespace DI
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
+            if (Input.GetMouseButtonDown(0))
+            {
+                _curMousePressed = 0;//rotate
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                _curMousePressed = 1;
+            }
+            // else
+            // {
+            //     _curMousePressed = -1;
+            // }
+            if (_curMousePressed >= 0 && !_isDragging) // mouse pressed
             {
                 _interactableGameObject = GetInteractableObject();
                 if (_interactableGameObject != null)
@@ -24,21 +42,39 @@ namespace DI
                     _isDragging = true;
                 }
             }
-            else if (Input.GetMouseButtonUp(0)) // Left mouse button released
+            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) // Left mouse button released
             {
                 _isDragging = false;
+                _curMousePressed = -1;
             }
-
+            
+            _horizontalInput = Input.GetAxis("Horizontal");
+            _verticalInput = Input.GetAxis("Vertical");
+            _isMove = Mathf.Abs(_horizontalInput) >= 0.1f || Mathf.Abs(_verticalInput) >=  0.1f;
+  
             if (_isDragging)
             {
                 Vector2 currentMousePosition = Input.mousePosition;
 
                 // Call the DoRotate method
-                _interactableGameObject.DoRotate(_startMousePosition, currentMousePosition);
-
+                if (_curMousePressed == 0)
+                {
+                    _interactableGameObject.DoRotate(_startMousePosition, currentMousePosition);
+                }
+                else
+                {
+                    Vector3 GetMouseWorldPosition()
+                    {
+                        Vector3 mousePos = Input.mousePosition;
+                        mousePos.z = _camera.WorldToScreenPoint(_interactableGameObject.transform.position).z; // Maintain depth
+                        return _camera.ScreenToWorldPoint(mousePos);
+                    }
+                    _interactableGameObject.DoMove(GetMouseWorldPosition());
+                }
                 // Update the start position for continuous rotation
                 _startMousePosition = currentMousePosition;
             }
+            
         }
 
         private InteractableGameObject GetInteractableObject()

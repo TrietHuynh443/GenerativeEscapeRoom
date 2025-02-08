@@ -8,10 +8,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonHandler : MonoBehaviour
+public class AdminButtonHandler : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _prompt;
     [SerializeField] private Button _creatModelButton;
+    [SerializeField] private Button _saveModelButton;
     [Injector]
     private readonly IEventHandlerService _eventAggregator;
 

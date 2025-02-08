@@ -2197,7 +2197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 141879056}
   m_Layer: 0
-  m_Name: luces
+  m_Name: lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6313,7 +6313,7 @@ MonoBehaviour:
   nivel: 0
   Velocidad: 0.74
   gameOver: {fileID: 0}
-  incorrecto: {fileID: 8300000, guid: 9f6af06c66b143f4b8bb81335525a0ec, type: 3}
+  incorrect: {fileID: 0}
   correct: {fileID: 8300000, guid: 752be009f0c81334dad43de984bd603c, type: 3}
   nb: {fileID: 8300000, guid: f797473d47f98e9409e6688db2ae4f60, type: 3}
   tUsuario: {fileID: 1919703733}
@@ -30309,6 +30309,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OVRPlayerController
       objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -32792,7 +32796,10 @@ MonoBehaviour:
   puertaElevador: {fileID: 1231616777}
   sonidoPing: {fileID: 8300000, guid: d87b28830b4e1ae41afd0dacc2a75df5, type: 3}
   Btnlevel1: {fileID: 1469718565}
+  Btnlevel2: {fileID: 0}
   level1: {fileID: 1751067013}
+  level2: {fileID: 0}
+  animPuertaCuarto: {fileID: 0}
 --- !u!65 &1751962182
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -38,6 +38,13 @@ namespace DI
             _instance = gameInstallerGameObject.AddComponent<GameInstaller>();
 
             DontDestroyOnLoad(gameInstallerGameObject);
+            LoadAllNetworkObjects();
+        }
+
+        private static void LoadAllNetworkObjects()
+        {
+            //call to server get data and model
+            //load to scene
         }
 
         private void Start()

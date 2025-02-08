@@ -27,10 +27,10 @@ namespace HttpCommand
     public class CreateModelResponse : BaseResponse
     {
         [JsonProperty("model")]
-        public byte[] Model { get; set; }
+        public string Model { get; set; }
         [JsonProperty("textureData")]
-        public byte[] TextureData { get; set; }
+        public string TextureData { get; set; }
         [JsonProperty("mtlData")]
-        public byte[] MtlData { get; set; }
+        public string MtlData { get; set; }
     }
 }

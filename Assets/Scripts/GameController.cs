@@ -31,9 +31,9 @@ public class GameController : MonoBehaviour
     public GameObject buttons;
     public GameObject btnPlay;
 
-    public Submision submision0;
-    public Submision submision1;
-    public Submision submision2;
+    public Submission submision0;
+    public Submission submision1;
+    public Submission submision2;
 
     public GameObject misionRequisitoJugar;
 

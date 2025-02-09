@@ -18,7 +18,6 @@ namespace DI
         private void Awake()
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
-            _dependenciesProvider.Register<ILogService>(() => new LogService());
             _dependenciesProvider.Register<IModelCommandSenderService>(() => new ModelCommandSender());
             _dependenciesProvider.Register<IEventHandlerService>(() => new EventAggregator());
             
@@ -38,6 +37,12 @@ namespace DI
             _instance = gameInstallerGameObject.AddComponent<GameInstaller>();
 
             DontDestroyOnLoad(gameInstallerGameObject);
+        }
+
+        private static void LoadAllNetworkObjects()
+        {
+            //call to server get data and model
+            //load to scene
         }
 
         private void Start()

@@ -36,13 +36,13 @@ public class DependenciesProvider : MonoBehaviour
                         newInstance.name = typeof(T).Name;
                         newInstance.transform.SetParent(transform);
                         _singletons[typeof(T)] = newInstance.GetComponent<T>();
-                        Debug.Log($"Registered new {typeof(T).Name}");
                         Inject(_singletons[typeof(T)]); // inject all services into mono object
                     }
                     else
                     {
                         _singletons[typeof(T)] = factory();
                     }
+                    Debug.Log($"Registered new {typeof(T).Name}");
                 }
                 return _singletons[typeof(T)];
             };

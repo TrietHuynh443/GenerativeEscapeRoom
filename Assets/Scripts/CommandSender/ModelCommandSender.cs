@@ -44,9 +44,12 @@ namespace CommandSender
         public async UniTask<GameObject> Gen3DModel(string prompt, string name)
         {
             // Send a command to generate the model
-            var res = await SendCommand(new CreateModelRequest() { Prompt = prompt });
-            if (res != null)
+            var response = await SendCommand(new CreateModelRequest() { Prompt = prompt });
+            if (response != null)
             {
+                var modelBytes = Convert.FromBase64String(response.Model);
+                var mtlBytes = Convert.FromBase64String(response.MtlData);
+                var textureBytes = Convert.FromBase64String(response.TextureData);
                 try
                 {
                     // Define the Resources folder path
@@ -55,23 +58,23 @@ namespace CommandSender
 
                     // Save the .obj file
                     string objPath = Path.Combine(resourcesPath, $"{name}.obj");
-                    await File.WriteAllBytesAsync(objPath, res.Model);
+                    await File.WriteAllBytesAsync(objPath, modelBytes);
                     
                     // Save the .png file (if any texture is provided)
                     string pngPath = string.Empty;
-                    if (res.TextureData != null)
+                    if (textureBytes != null)
                     {
                         pngPath = Path.Combine(resourcesPath, $"{name}.png");
-                        File.WriteAllBytes(pngPath, res.TextureData);
+                        File.WriteAllBytes(pngPath, textureBytes);
                     }
-                    MemoryStream modelStream = new MemoryStream(res.Model);
+                    MemoryStream modelStream = new MemoryStream(modelBytes);
                     GameObject model = null;
                     // Save the .mtl file
-                    if (res.MtlData != null)
+                    if (mtlBytes != null)
                     {
                         string mtlPath = Path.Combine(resourcesPath, $"{name}.mtl");
-                        await File.WriteAllBytesAsync(mtlPath, res.MtlData);
-                        var matStream = new MemoryStream(res.MtlData);
+                        await File.WriteAllBytesAsync(mtlPath, mtlBytes);
+                        var matStream = new MemoryStream(mtlBytes);
                         model = new OBJLoader().Load(modelStream, matStream, texturePath: pngPath);
                     }
                     else

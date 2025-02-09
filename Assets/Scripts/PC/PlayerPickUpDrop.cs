@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Oculus.Platform;
 using UnityEngine;
 
 public class PlayerPickUpDrop : MonoBehaviour
@@ -13,7 +9,7 @@ public class PlayerPickUpDrop : MonoBehaviour
     [SerializeField] private LayerMask pickUpLayer;
     [SerializeField] private LayerMask buttonLayer;
 
-    private ObjectGrabbable objectGrabbable;
+    private GrabbableObject grabbableObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +21,7 @@ public class PlayerPickUpDrop : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (objectGrabbable != null)
+            if (grabbableObject != null)
             {
                 DropObject();
             }
@@ -58,17 +54,17 @@ public class PlayerPickUpDrop : MonoBehaviour
     {
         if (Physics.Raycast(playerCamTransform.position, playerCamTransform.forward, out RaycastHit hit, pickUpRange, pickUpLayer))
         {
-            if (hit.transform.TryGetComponent(out objectGrabbable))
+            if (hit.transform.TryGetComponent(out grabbableObject))
             {
                 Debug.Log("Picking up");
-                objectGrabbable.Grab(grabPoint);
+                grabbableObject.Grab(grabPoint);
             }
         }
     }
 
     private void DropObject()
     {
-        objectGrabbable.Drop();
-        objectGrabbable = null;
+        grabbableObject.Drop();
+        grabbableObject = null;
     }
 }

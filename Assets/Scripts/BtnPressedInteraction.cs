@@ -117,7 +117,6 @@ public class BtnPressedInteraction : ButtonBase
 
                 if (controller.userShift)
                 {
-                    Debug.Log("Hi from Activar");
                     controller.PlayUser(btnID);
                 }
 
@@ -126,7 +125,6 @@ public class BtnPressedInteraction : ButtonBase
             }
             // yield return new WaitForSeconds(2);
             pTouched = false;
-            print("Off " + pTouched);
         }
 
     }
@@ -143,7 +141,6 @@ public class BtnPressedInteraction : ButtonBase
 
             if (controller.userShift)
             {
-                Debug.Log("Hi from Activar");
                 controller.PlayUser(btnID);
             }
 
@@ -179,7 +176,6 @@ public class BtnPressedInteraction : ButtonBase
             Activate();
             yield return new WaitForSeconds(2);
             pTouched = false;
-            print("Off " + pTouched);
         }
     }
 }

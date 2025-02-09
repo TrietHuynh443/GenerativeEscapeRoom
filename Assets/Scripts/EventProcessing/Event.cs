@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace EventProcessing
 {
     public interface IEvent 
@@ -14,5 +16,10 @@ namespace EventProcessing
     {
         public int Level { get; set; } = 1;
         public int Count { get; set; } = 0;
+    }
+
+    public class OnDraggingInteractableObjEvent : IEvent
+    {
+        public InteractableGameObject InteractableObj { get; set; } 
     }
 }

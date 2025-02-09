@@ -1,4 +1,5 @@
-﻿using Interface.Services;
+﻿using EventProcessing;
+using Interface.Services;
 using UnityEngine;
 namespace DI
 {
@@ -13,6 +14,9 @@ namespace DI
         private float _verticalInput;
         private InteractableGameObject _curInteractObject;
         private int _curMousePressed = -1;
+
+        [Injector]
+        private readonly IEventHandlerService _eventAggregateService;
 
         private void Start()
         {
@@ -38,14 +42,20 @@ namespace DI
                 _interactableGameObject = GetInteractableObject();
                 if (_interactableGameObject != null)
                 {
+                    _camera.gameObject.GetComponent<CameraMoveHandler>().enabled = false;
                     _startMousePosition = Input.mousePosition;
                     _isDragging = true;
                 }
+                _eventAggregateService.RaiseEvent(new OnDraggingInteractableObjEvent()
+                {
+                    InteractableObj = _interactableGameObject,
+                });
             }
             else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) // Left mouse button released
             {
                 _isDragging = false;
                 _curMousePressed = -1;
+                _camera.GetComponent<CameraMoveHandler>().enabled = true;
             }
             
             _horizontalInput = Input.GetAxis("Horizontal");
@@ -55,7 +65,7 @@ namespace DI
             if (_isDragging)
             {
                 Vector2 currentMousePosition = Input.mousePosition;
-
+                
                 // Call the DoRotate method
                 if (_curMousePressed == 0)
                 {
@@ -80,18 +90,25 @@ namespace DI
         private InteractableGameObject GetInteractableObject()
         {
             // Cast a ray from the camera to the mouse position
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // Perform the raycast
-            if (Physics.Raycast(ray, out hit, _camera.farClipPlane))
+            if (_camera == null)
             {
-                Debug.Log($"Hit: {hit.collider.name}");
-
-                // Return the InteractableGameObject component if the object is interactable
-                return hit.collider.GetComponent<InteractableGameObject>();
+                _camera = Camera.current;
             }
-            
+
+            if (_camera != null)
+            {
+                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                
+                // Perform the raycast
+                if (Physics.Raycast(ray, out hit, _camera.farClipPlane))
+                {
+
+                    // Return the InteractableGameObject component if the object is interactable
+                    return hit.collider.GetComponent<InteractableGameObject>();
+                }
+            }
+
             return null;
         }
     }

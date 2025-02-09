@@ -16,8 +16,8 @@ public class InteractableGameObject : MonoBehaviour
 {
     // Rotate using DOTween when the mouse is dragged
     [SerializeField] [Range(0f,1f)]private float _sensitivity = 1f;
-    private Dictionary<ECategoryType, string> _categoryMap;
-
+    private Dictionary<ECategoryType, string> _categoryMap = new();
+    
 
     public void DoRotate(Vector2 originMousePosition, Vector2 targetMousePosition)
     {
@@ -36,6 +36,12 @@ public class InteractableGameObject : MonoBehaviour
     {
     }
 
+    public void SetConfig(ECategoryType categoryType, string value)
+    {
+        _categoryMap.TryAdd(categoryType, value);
+        _categoryMap[categoryType] = value;
+    }
+
     public string GetConfig(ECategoryType categoryType)
     {
         return _categoryMap.GetValueOrDefault(categoryType, string.Empty);
@@ -45,9 +51,4 @@ public class InteractableGameObject : MonoBehaviour
     {
         transform.DOMove(worldPos, 0.2f);
     }
-}
-
-public class InteractableGameObjectLevel2 : InteractableGameObject
-{
-    
 }

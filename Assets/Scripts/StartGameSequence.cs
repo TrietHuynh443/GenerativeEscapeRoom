@@ -2,59 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartGameSequence : MonoBehaviour
+// public class StartGameSequence : MonoBehaviour
+// {
+//     public float intensityLight;
+//     public Light Light;
+//     public AudioClip sound;
+//     public GameController controller;
+//     public Animator anim;
+
+//     private bool pTouched = false;
+
+//     void Start()
+//     {
+//         intensityLight = Light.intensity;
+//         pTouched = false;
+//     }
+
+//     void Update()
+//     {
+// #if UNITY_EDITOR_WIN
+//         if (Input.GetKeyDown(KeyCode.Space))
+//         {
+//             Debug.Log("StartGameSequence started in editor mode");
+//             pTouched = true;
+//             Activate();
+//             pTouched = false;
+//         }
+// #endif
+//     }
+
+//     IEnumerator AnimPlay()
+//     {
+//         anim.SetBool("press", true);
+//         yield return new WaitForSeconds(1);
+//         anim.SetBool("press", false);
+//     }
+
+//     public void Activate()
+//     {
+//         Light.intensity = intensityLight;
+//         Light.gameObject.SetActive(true);
+//         StartCoroutine(AnimPlay());
+//         AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
+//         StartCoroutine(controller.Play());
+//     }
+
+//     void OnTriggerEnter()
+//     {
+//         if (!pTouched)
+//         {
+//             pTouched = true;
+//             Activate();
+//             //yield return new WaitForSeconds(3);
+//             pTouched = false;
+//         }
+//     }
+// }
+
+
+public class StartGameSequence : ButtonBase
 {
-    public float intensityLight;
-    public Light Light;
-    public AudioClip sound;
-    public GameController controller;
-    public Animator anim;
-
-    private bool pTouched = false;
-
-    void Start()
-    {
-        intensityLight = Light.intensity;
-        pTouched = false;
-    }
-
     void Update()
     {
 #if UNITY_EDITOR_WIN
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("StartGameSequence started in editor mode");
-            pTouched = true;
-            Activate();
-            pTouched = false;
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Debug.Log("StartGameSequence started in editor mode");
+        //     pTouched = true;
+        //     Activate();
+        //     pTouched = false;
+        // }
 #endif
     }
 
-    IEnumerator AnimPlay()
+    public override void Activate()
     {
-        anim.SetBool("press", true);
-        yield return new WaitForSeconds(1);
-        anim.SetBool("press", false);
-    }
-
-    public void Activate()
-    {
-        Light.intensity = intensityLight;
-        Light.gameObject.SetActive(true);
-        StartCoroutine(AnimPlay());
-        AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
-        StartCoroutine(controller.Play());
-    }
-
-    void OnTriggerEnter()
-    {
+        Debug.Log("StartGameSequence started in editor mode");
         if (!pTouched)
         {
+            Debug.Log("StartGameSequence started in editor mode 2");
             pTouched = true;
-            Activate();
-            //yield return new WaitForSeconds(3);
+            buttonLight.intensity = initialLightIntensity;
+            buttonLight.gameObject.SetActive(true);
+            StartCoroutine(AnimPlay());
+            AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
+            StartCoroutine(controller.Play());
             pTouched = false;
         }
     }
+
+    // void OnTriggerEnter()
+    // {
+    //     if (!pTouched)
+    //     {
+    //         pTouched = true;
+    //         Activate();
+    //         pTouched = false;
+    //     }
+    // }
 }

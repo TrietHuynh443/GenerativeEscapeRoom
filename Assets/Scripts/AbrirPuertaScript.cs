@@ -22,6 +22,7 @@ public class AbrirPuertaScript : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+        Debug.Log("Colision con " + col.name);
         if (col.name == this.name)
         {
             AudioSource.PlayClipAtPoint(push, Vector3.zero, 1.0f);

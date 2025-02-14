@@ -9,14 +9,19 @@ public abstract class Game : MonoBehaviour
     // // Start is called before the first frame update
     // void Start()
     // {
-        
+
     // }
 
     // // Update is called once per frame
     // void Update()
     // {
-        
+
     // }
+
+    void Awake()
+    {
+        _soundManager = GameObject.FindObjectOfType<SoundManager>();
+    }
 
     public abstract void StartGame();
 
@@ -27,5 +32,5 @@ public abstract class Game : MonoBehaviour
         Debug.Log("Game Lose");
     }
 
-    public abstract void GameControl();
+    public abstract IEnumerator GameControl();
 }

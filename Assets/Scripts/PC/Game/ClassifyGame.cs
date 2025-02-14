@@ -21,10 +21,10 @@ public class ClassifyGame : Game
         if (!_isPLaying)
             return;
 
-        GameControl();
+        StartCoroutine(GameControl());
     }
 
-    public override void GameControl()
+    public override IEnumerator GameControl()
     {
         // Debug.Log("GameControl");
         _needToClassifyObjects.ForEach(obj =>
@@ -39,6 +39,8 @@ public class ClassifyGame : Game
             StartCoroutine(WinGame());
         else
             checkWin = 0;
+        
+        yield return new WaitForSeconds(0);
     }
 
     public override void StartGame()

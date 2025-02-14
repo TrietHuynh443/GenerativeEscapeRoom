@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class TraceGame : Game
 {
     public BtnPressedInteraction[] btns;
     public List<int> RandomList = new List<int>();
@@ -31,12 +31,6 @@ public class GameController : MonoBehaviour
     public GameObject buttons;
     public GameObject btnPlay;
 
-    public Submission submision0;
-    public Submission submision1;
-    public Submission submision2;
-
-    public GameObject misionRequisitoJugar;
-
     public GameObject premio;
 
     public bool completedSound = false;
@@ -48,36 +42,90 @@ public class GameController : MonoBehaviour
 
     bool firstTime = true;
 
-    private SoundManager soundManager;
-    private bool _canPlay;
-
-    void Awake()
-    {
-        soundManager = GameObject.FindObjectOfType<SoundManager>();
-    }
-
     void Update()
     {
-        if (!_canPlay)
-            StartCoroutine(CheckRequirementPlay());
         if (nivel == 5 && turnOnPC)
         {
-            WinGame();
+            StartCoroutine(WinGame());
         }
     }
 
-    void WinGame()
+    public override IEnumerator GameControl()
     {
-        soundManager.PlaySound("Ins5L1");
+        playable = true;
+
+        Debug.Log("GameControlHere");
+        if (firstTime)
+        {
+            _soundManager.PlaySound("Ins8L1");
+            yield return new WaitForSeconds(3);
+            tPC.SetActive(true);
+            tUsuario.SetActive(false);
+            _soundManager.activateAnimation("Ins8L1");
+
+            yield return new WaitForSeconds(11);
+            _soundManager.PlaySound("Ins9L1");
+            yield return new WaitForSeconds(3);
+            tPC.SetActive(false);
+            tUsuario.SetActive(true);
+            _soundManager.activateAnimation("Ins9L1");
+
+            firstTime = false;
+
+            yield return new WaitForSeconds(9);
+            _soundManager.arrow.SetActive(false);
+            tPC.SetActive(false);
+            tUsuario.SetActive(false);
+        }
+
+        userShift = false;
+        turnOnPC = true;
+        counter = 0;
+        contadorUsusario = 0;
+        nivel = 0;
+        RandomList.Clear();
+        FillRandomList();
+        Invoke("ShowElementsPlay", 2.0f);
+        Invoke("TurnOnPC", 4.0f);
+
+        yield return new WaitForSeconds(0);
+    }
+
+    public override void StartGame()
+    {
+        // _soundManager = GameObject.FindObjectOfType<SoundManager>();
+
+        playable = true;
+        buttons.SetActive(false);
+        btnPlay.SetActive(true);
+        // submision0.completed = false;
+        if (!ins6)
+        {
+            _soundManager.PlaySound("Ins6L1");
+            StartCoroutine(_soundManager.ChangeScreenInstruction("Ins6L1", "6Ins", "", 0, 4, 0));
+            ins6 = true;
+        }
+        else if (!firstTime)
+        {
+            _soundManager.PlaySound("Ins7L1");
+            StartCoroutine(_soundManager.ChangeScreenInstruction("Ins6L1", "7Ins", "", 0, 2, 0));
+            _soundManager.arrow.SetActive(false);
+        }
+    }
+
+    public override IEnumerator WinGame()
+    {
+        _soundManager.PlaySound("Ins5L1");
         userShift = false;
         turnOnPC = false;
         playable = false;
         btnPlay.SetActive(false);
         buttons.SetActive(false);
         premio.SetActive(true);
+        yield return new WaitForSeconds(3);
     }
 
-    IEnumerator CheckSphereShift()
+       IEnumerator CheckSphereShift()
     {
         yield return new WaitForSeconds(1.5f);
         if (userShift)
@@ -97,22 +145,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator CheckRequirementPlay()
+        void FillRandomList()
     {
-        if ((submision0.completed) && (submision1.completed) && (submision2.completed))
+        for (int i = 0; i <= 1000; i++)
         {
-            if (!completedSound)
-            {
-                completedSound = true;
-                AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
-                yield return new WaitForSeconds(3);
-                completedSound = false;
-            }
-            misionRequisitoJugar.SetActive(false);
-            _canPlay = true;
-            Debug.LogWarning($"CheckRequirementPlay");
-            Invoke("ButtonPlay", 1.0f);
+            RandomList.Add(Random.Range(0, 4));
         }
+        listFull = true;
     }
 
     void ButtonPlay()
@@ -122,28 +161,18 @@ public class GameController : MonoBehaviour
         playable = true;
         buttons.SetActive(false);
         btnPlay.SetActive(true);
-        submision0.completed = false;
         if (!ins6)
         {
-            soundManager.PlaySound("Ins6L1");
-            StartCoroutine(soundManager.ChangeScreenInstruction("Ins6L1", "6Ins", "", 0, 4, 0));
+            _soundManager.PlaySound("Ins6L1");
+            StartCoroutine(_soundManager.ChangeScreenInstruction("Ins6L1", "6Ins", "", 0, 4, 0));
             ins6 = true;
         }
         else if (!firstTime)
         {
-            soundManager.PlaySound("Ins7L1");
-            StartCoroutine(soundManager.ChangeScreenInstruction("Ins6L1", "7Ins", "", 0, 2, 0));
-            soundManager.arrow.SetActive(false);
+            _soundManager.PlaySound("Ins7L1");
+            StartCoroutine(_soundManager.ChangeScreenInstruction("Ins6L1", "7Ins", "", 0, 2, 0));
+            _soundManager.arrow.SetActive(false);
         }
-    }
-
-    void FillRandomList()
-    {
-        for (int i = 0; i <= 1000; i++)
-        {
-            RandomList.Add(Random.Range(0, 4));
-        }
-        listFull = true;
     }
 
     void TurnOnPC()
@@ -154,7 +183,7 @@ public class GameController : MonoBehaviour
             //print("NIVEL "+ nivel +" entra, i= "+ contador + " === BTN " +ListaAleatoria[contador]);
 
             btns[RandomList[counter]].Activar();
-            if (counter >= nivel || Input.GetKeyDown(KeyCode.Space))
+            if (counter >= nivel)
             {
                 nivel++;
                 ChangeShift();
@@ -189,6 +218,14 @@ public class GameController : MonoBehaviour
         StartCoroutine(CheckSphereShift());
     }
 
+    void ShowElementsPlay()
+    {
+        buttons.SetActive(true);
+        btnPlay.SetActive(false);
+        turnOnPC = true;
+        userShift = false;
+    }
+
     public void PlayUser(int idBtn)
     {
         // print(" entra, j= "+ contadorUsusario + " === BTN " +ListaAleatoria[contador]);
@@ -210,51 +247,5 @@ public class GameController : MonoBehaviour
         {
             contadorUsusario++;
         }
-    }
-
-    public IEnumerator Play()
-    {
-        playable = true;
-
-        if (firstTime)
-        {
-            soundManager.PlaySound("Ins8L1");
-            yield return new WaitForSeconds(3);
-            tPC.SetActive(true);
-            tUsuario.SetActive(false);
-            soundManager.activateAnimation("Ins8L1");
-
-            yield return new WaitForSeconds(11);
-            soundManager.PlaySound("Ins9L1");
-            yield return new WaitForSeconds(3);
-            tPC.SetActive(false);
-            tUsuario.SetActive(true);
-            soundManager.activateAnimation("Ins9L1");
-
-            firstTime = false;
-
-            yield return new WaitForSeconds(9);
-            soundManager.arrow.SetActive(false);
-            tPC.SetActive(false);
-            tUsuario.SetActive(false);
-        }
-
-        userShift = false;
-        turnOnPC = true;
-        counter = 0;
-        contadorUsusario = 0;
-        nivel = 0;
-        RandomList.Clear();
-        FillRandomList();
-        Invoke("ShowElementsPlay", 2.0f);
-        Invoke("TurnOnPC", 4.0f);
-    }
-
-    void ShowElementsPlay()
-    {
-        buttons.SetActive(true);
-        btnPlay.SetActive(false);
-        turnOnPC = true;
-        userShift = false;
     }
 }

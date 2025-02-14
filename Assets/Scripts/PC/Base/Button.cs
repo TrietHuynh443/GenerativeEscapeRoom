@@ -6,7 +6,6 @@ public abstract class ButtonBase : MonoBehaviour
 {
     public Light buttonLight;
     public AudioClip sound;
-    public GameController controller;
     public Animator anim;
 
     protected bool pTouched = false;

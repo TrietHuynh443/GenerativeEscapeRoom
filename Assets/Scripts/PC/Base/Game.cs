@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Game : MonoBehaviour
 {
     protected SoundManager _soundManager;
+    public bool _isDone = false;
     // // Start is called before the first frame update
     // void Start()
     // {

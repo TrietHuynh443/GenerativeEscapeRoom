@@ -34,6 +34,7 @@ public class ClassifyGame : Game
             }
         });
 
+
         if (checkWin == 0)
             StartCoroutine(WinGame());
         else
@@ -49,6 +50,7 @@ public class ClassifyGame : Game
     {
         Debug.Log("WinGame");
         _isPLaying = false;
+        _isDone = true;
         if (!completedSound)
             {
                 completedSound = true;
@@ -57,8 +59,5 @@ public class ClassifyGame : Game
                 yield return new WaitForSeconds(3);
                 completedSound = false;
             }
-            // _canPlay = true;
-            // Debug.LogWarning($"CheckRequirementPlay");
-            // Invoke("ButtonPlay", 1.0f);
     }
 }

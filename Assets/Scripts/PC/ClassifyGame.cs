@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClassifyGame : Game
+{
+    [SerializeField] private List<ClassifyObject> _needToClassifyObjects;
+    [SerializeField] private List<GameObject> _bucketObjects;
+
+    private bool _isPLaying = true;
+
+    public AudioClip correct;
+    public bool completedSound = false;
+
+    public GameObject Game1;
+
+    public void Update()
+    {
+        if (!_isPLaying)
+            return;
+
+        GameControl();
+    }
+
+    public override void GameControl()
+    {
+        _needToClassifyObjects.ForEach(obj =>
+        {
+            if (!obj.completed)
+                return;
+        });
+
+        WinGame();
+    }
+
+    public override void StartGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override IEnumerator WinGame()
+    {
+        _isPLaying = false;
+
+        if (!completedSound)
+            {
+                completedSound = true;
+                AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
+                yield return new WaitForSeconds(3);
+                completedSound = false;
+            }
+            Game1.SetActive(false);
+            // _canPlay = true;
+            // Debug.LogWarning($"CheckRequirementPlay");
+            // Invoke("ButtonPlay", 1.0f);
+    }
+}

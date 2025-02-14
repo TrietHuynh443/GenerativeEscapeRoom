@@ -34,10 +34,10 @@ public class Submission : MonoBehaviour
     public void Update()
     {
 #if UNITY_EDITOR_WIN
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CheatSuccess();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     CheatSuccess();
+        // }
 #endif
     }
 
@@ -71,11 +71,11 @@ public class Submission : MonoBehaviour
         });
     }
 
-    private void CheatSuccess()
-    {
-        completed = true;
-        // soundManager.PlaySound("Ins4L1");
-        // StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
-        // inst4 = true;
-    }
+    // private void CheatSuccess()
+    // {
+    //     completed = true;
+    //     // soundManager.PlaySound("Ins4L1");
+    //     // StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
+    //     // inst4 = true;
+    // }
 }

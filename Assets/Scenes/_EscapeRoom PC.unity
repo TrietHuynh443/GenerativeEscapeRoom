@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 30215433}
   - component: {fileID: 30215432}
   - component: {fileID: 30215431}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1360,7 +1360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 80123590}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Btn_azul
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3030,7 +3030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 157825825}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3443,7 +3443,7 @@ GameObject:
   - component: {fileID: 222997162}
   - component: {fileID: 222997161}
   - component: {fileID: 222997160}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4167,7 +4167,7 @@ GameObject:
   - component: {fileID: 254718882}
   - component: {fileID: 254718881}
   - component: {fileID: 254718880}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4317,7 +4317,7 @@ GameObject:
   - component: {fileID: 292135770}
   - component: {fileID: 292135771}
   - component: {fileID: 292135772}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: 0
   m_TagString: btn
   m_Icon: {fileID: 0}
@@ -4650,7 +4650,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 314372320}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Btn_amarillo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6029,7 +6029,7 @@ GameObject:
   - component: {fileID: 380879176}
   - component: {fileID: 380879175}
   - component: {fileID: 380879174}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6218,7 +6218,7 @@ GameObject:
   - component: {fileID: 391466282}
   - component: {fileID: 391466281}
   - component: {fileID: 391466280}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6940,7 +6940,7 @@ GameObject:
   - component: {fileID: 447645122}
   - component: {fileID: 447645121}
   - component: {fileID: 447645120}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7117,7 +7117,7 @@ GameObject:
   - component: {fileID: 450030919}
   - component: {fileID: 450030918}
   - component: {fileID: 450030917}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8515,7 +8515,7 @@ GameObject:
   - component: {fileID: 503410331}
   - component: {fileID: 503410330}
   - component: {fileID: 503410329}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10484,7 +10484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 607159416}
   - component: {fileID: 607159417}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: luzJugar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10555,7 +10555,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -10663,7 +10663,7 @@ GameObject:
   - component: {fileID: 626665266}
   - component: {fileID: 626665265}
   - component: {fileID: 626665264}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10952,7 +10952,7 @@ GameObject:
   - component: {fileID: 639723714}
   - component: {fileID: 639723713}
   - component: {fileID: 639723712}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11108,9 +11108,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 8300000, guid: f797473d47f98e9409e6688db2ae4f60, type: 3}
-  submission1: {fileID: 774227113}
-  submission2: {fileID: 738246708}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!1 &648243324
 GameObject:
   m_ObjectHideFlags: 0
@@ -11670,7 +11669,7 @@ GameObject:
   - component: {fileID: 669605980}
   - component: {fileID: 669605979}
   - component: {fileID: 669605978}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13654,9 +13653,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 8300000, guid: f797473d47f98e9409e6688db2ae4f60, type: 3}
-  submission1: {fileID: 774227113}
-  submission2: {fileID: 641733110}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!1 &749645903
 GameObject:
   m_ObjectHideFlags: 0
@@ -13979,7 +13977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 769466538}
   - component: {fileID: 769466539}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: luzVerde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14050,7 +14048,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 584
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -14075,7 +14073,7 @@ GameObject:
   - component: {fileID: 773014886}
   - component: {fileID: 773014885}
   - component: {fileID: 773014884}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14314,9 +14312,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 8300000, guid: f797473d47f98e9409e6688db2ae4f60, type: 3}
-  submission1: {fileID: 738246708}
-  submission2: {fileID: 641733110}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!1 &782895470
 GameObject:
   m_ObjectHideFlags: 0
@@ -15545,7 +15542,7 @@ GameObject:
   - component: {fileID: 850294080}
   - component: {fileID: 850294079}
   - component: {fileID: 850294078}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16151,7 +16148,7 @@ GameObject:
   - component: {fileID: 876415490}
   - component: {fileID: 876415489}
   - component: {fileID: 876415488}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16473,7 +16470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 909978044}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16791,7 +16788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 914329230}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Btn_rojo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19525,7 +19522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1128958008}
   - component: {fileID: 1128958009}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: luzAzul
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19596,7 +19593,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 2120
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -21575,7 +21572,7 @@ GameObject:
   - component: {fileID: 1280178634}
   - component: {fileID: 1280178636}
   - component: {fileID: 1280178637}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: 3
   m_TagString: btn
   m_Icon: {fileID: 0}
@@ -23129,7 +23126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1357343952}
   - component: {fileID: 1357343953}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: luzRoja
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23200,7 +23197,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 328
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -23557,7 +23554,7 @@ GameObject:
   - component: {fileID: 1376738104}
   - component: {fileID: 1376738103}
   - component: {fileID: 1376738102}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24289,7 +24286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1397249415}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24433,7 +24430,7 @@ GameObject:
   - component: {fileID: 1418440010}
   - component: {fileID: 1418440009}
   - component: {fileID: 1418440008}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25092,7 +25089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1452745515}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Btn_verde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25232,7 +25229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1464925208}
   - component: {fileID: 1464925209}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: luzAmarilla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25303,7 +25300,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 1096
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -25729,7 +25726,7 @@ GameObject:
   - component: {fileID: 1480833104}
   - component: {fileID: 1480833106}
   - component: {fileID: 1480833107}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: 2
   m_TagString: btn
   m_Icon: {fileID: 0}
@@ -33442,7 +33439,7 @@ GameObject:
   - component: {fileID: 1671341309}
   - component: {fileID: 1671341308}
   - component: {fileID: 1671341307}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35120,7 +35117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1770796585}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37355,7 +37352,7 @@ GameObject:
   - component: {fileID: 1929626710}
   - component: {fileID: 1929626709}
   - component: {fileID: 1929626708}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38600,7 +38597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019562153}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39179,7 +39176,7 @@ GameObject:
   - component: {fileID: 2047438243}
   - component: {fileID: 2047438242}
   - component: {fileID: 2047438241}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: jugar
   m_TagString: btn
   m_Icon: {fileID: 0}
@@ -39746,7 +39743,7 @@ MonoBehaviour:
     m_Bits: 4096
   buttonLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
 --- !u!1001 &2071307162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40396,7 +40393,7 @@ GameObject:
   - component: {fileID: 2084283451}
   - component: {fileID: 2084283453}
   - component: {fileID: 2084283454}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: 1
   m_TagString: btn
   m_Icon: {fileID: 0}
@@ -41230,13 +41227,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2103124895}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Btn_jugar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2103124895
 Transform:
   m_ObjectHideFlags: 0
@@ -41267,7 +41264,7 @@ GameObject:
   - component: {fileID: 2106288276}
   - component: {fileID: 2106288275}
   - component: {fileID: 2106288274}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41732,7 +41729,7 @@ GameObject:
   - component: {fileID: 2125502623}
   - component: {fileID: 2125502622}
   - component: {fileID: 2125502621}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

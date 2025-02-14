@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Game : MonoBehaviour
 {
-    [SerializeField] private SoundManager _soundManager;
+    protected SoundManager _soundManager;
     // // Start is called before the first frame update
     // void Start()
     // {

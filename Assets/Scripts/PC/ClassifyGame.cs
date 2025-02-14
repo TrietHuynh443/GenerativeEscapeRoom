@@ -14,6 +14,8 @@ public class ClassifyGame : Game
 
     public GameObject Game1;
 
+    private int checkWin = 0;
+
     public void Update()
     {
         if (!_isPLaying)
@@ -24,32 +26,37 @@ public class ClassifyGame : Game
 
     public override void GameControl()
     {
+        // Debug.Log("GameControl");
         _needToClassifyObjects.ForEach(obj =>
         {
-            if (!obj.completed)
-                return;
+            if (!obj.completed){
+                checkWin++;
+            }
         });
 
-        WinGame();
+        if (checkWin == 0)
+            StartCoroutine(WinGame());
+        else
+            checkWin = 0;
     }
 
     public override void StartGame()
     {
-        throw new System.NotImplementedException();
+        _soundManager = GameObject.FindObjectOfType<SoundManager>();
     }
 
     public override IEnumerator WinGame()
     {
+        Debug.Log("WinGame");
         _isPLaying = false;
-
         if (!completedSound)
             {
                 completedSound = true;
                 AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
+                Game1.SetActive(false);
                 yield return new WaitForSeconds(3);
                 completedSound = false;
             }
-            Game1.SetActive(false);
             // _canPlay = true;
             // Debug.LogWarning($"CheckRequirementPlay");
             // Invoke("ButtonPlay", 1.0f);

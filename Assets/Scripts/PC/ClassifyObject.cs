@@ -10,16 +10,24 @@ public class ClassifyObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name == name)
+        if (other.tag == "Bucket")
         {
-            completed = true;
-            AudioSource.PlayClipAtPoint(push, Vector3.zero, 1.0f);
+            Debug.Log("Bucket");
+            if (other.name == name)
+            {
+                Debug.Log("Correct");
+                completed = true;
+                AudioSource.PlayClipAtPoint(push, Vector3.zero, 1.0f);
+            }
+            else
+            {
+                completed = false;
+                Debug.Log("Incorrect");
+                AudioSource.PlayClipAtPoint(incorrect, Vector3.zero, 1.0f);
+            }
         }
-        else
-        {
-            completed = false;
-            AudioSource.PlayClipAtPoint(incorrect, Vector3.zero, 1.0f);
-        }
+
+        completed = false;
     }
 
 }

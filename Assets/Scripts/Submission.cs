@@ -59,7 +59,7 @@ public class Submission : MonoBehaviour
         completed = true;
         if (isSuccess)
             return;
-        
+        Debug.Log("Correct2");
         soundManager.PlaySound("Ins4L1");
         StartCoroutine(soundManager.ChangeScreenInstruction("", "4Ins", "", 0, 2, 0));
         isSuccess = true;

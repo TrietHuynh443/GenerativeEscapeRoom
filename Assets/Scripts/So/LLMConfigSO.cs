@@ -34,7 +34,18 @@ public class LLMConfigSO : ScriptableObject
             switch (ApiType)
             {
                 case ELLMApiType.OpenAi:
-                    return new OpenAiRequest();
+                    return new OpenAiRequest()
+                    {
+                        Model = "gpt-3.5-turbo",
+                        Messages = new ()
+                        {
+                            new Dictionary<string, string>
+                            {
+                                {"role", "developer"},
+                                {"content", "You are a helpful assistant."}
+                            }
+                        }
+                    };
                 case ELLMApiType.Gemini:
                     return new GeminiRequest();
                 case ELLMApiType.DeepSeek:

@@ -4,30 +4,33 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class NetworkManager : MonoBehaviour
+namespace Manager
 {
-    // Start is called before the first frame update
-    [SerializeField] private string Input { get; set; } = "";
-
-    private LLMConfigSO _config;
-    private LLMStructureCommand _llmStructureCommand;
-    private LLMRequestFactory _llmRequestFactory = new();
-    private void OnEnable()
+    public class NetworkManager : MonoBehaviour
     {
-        Addressables.LoadAssetAsync<LLMConfigSO>("config").Completed += (asset) =>
-        {
-            if (asset.Status == AsyncOperationStatus.Succeeded)
-            {
-                _config = asset.Result;
-                _llmStructureCommand = new LLMStructureCommand();
+        // Start is called before the first frame update
+        [SerializeField] private string Input { get; set; } = "";
 
-                _llmStructureCommand.Send(_config.Request);
-            }
-            else
+        private LLMConfigSO _config;
+        private LLMStructureCommand _llmStructureCommand;
+        private LLMRequestFactory _llmRequestFactory = new();
+        private void OnEnable()
+        {
+            Addressables.LoadAssetAsync<LLMConfigSO>("config").Completed += (asset) =>
             {
-                throw new System.Exception("Failed to load config");
-            }
-        };
-    }
+                if (asset.Status == AsyncOperationStatus.Succeeded)
+                {
+                    _config = asset.Result;
+                    _llmStructureCommand = new LLMStructureCommand();
+
+                    _llmStructureCommand.Send(_config.Request);
+                }
+                else
+                {
+                    throw new System.Exception("Failed to load config");
+                }
+            };
+        }
     
+    }
 }

@@ -11,20 +11,18 @@ namespace Manager
     public class GameManager : MonoService
     {
         [Injector]
-        private readonly IModelCommandSenderService _commandSender;
-        [Injector]
         private readonly IEventHandlerService _eventHandlerService;
 
         private void Start()
         {
-            _eventHandlerService.AddEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
+            // _eventHandlerService.AddEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }
 
         private async void SendCreateNewModelCommand(OnCreateNewModelEvent evt)
         {
             try
             {
-                var model = await _commandSender.Gen3DModel(evt.Prompt, "test");
+                // var model = await _commandSender.Gen3DModel(evt.Prompt, "test");
             }
             catch (Exception e)
             {
@@ -34,7 +32,7 @@ namespace Manager
 
         private void OnDestroy()
         {
-            _eventHandlerService.RemoveEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
+            // _eventHandlerService.RemoveEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }
     }
 }

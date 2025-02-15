@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using HttpCommand;
@@ -8,27 +9,14 @@ using UnityEngine.Networking;
 
 namespace CommandSender
 {
-    public class CommandSender<TRequest, TResponse>
+    public abstract class CommandSender<TRequest, TResponse>
         where TRequest : BaseRequest
         where TResponse : BaseResponse
     {
         protected readonly string BaseUrl  = "https://localhost:8000";
         protected string Url { get; set; }
-
-        public async UniTask<TResponse> SendCommand(TRequest request)
-        {
-            //Post
-            if (typeof(UpdateRequest).IsAssignableFrom(typeof(TRequest)))
-            {
-                return await DoPost(request as UpdateRequest);
-            }
-            else
-            {
-                return await DoGet(request);
-            }
-        }
-
-        protected virtual async UniTask<TResponse> DoGet(TRequest request)
+        public abstract Task Send(TRequest request);
+        protected async UniTask<TResponse> DoGet(TRequest request)
         {
             var queryString = request.ToQuery();
             var url = $"{Url}?{queryString}";
@@ -56,17 +44,36 @@ namespace CommandSender
 
             return null;
         }
-
-        protected virtual async UniTask<TResponse> DoPost(UpdateRequest request)
+        
+        protected UnityWebRequest CreateRequest(string url, string method, string jsonData, Dictionary<string, string> headers = null)
         {
-            var bodyRaw = request.ToBody();
-            using var webRequest = new UnityWebRequest(Url, UnityWebRequest.kHttpVerbPOST);
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
-            webRequest.SetRequestHeader("Content-Type", "application/json");
+            UnityWebRequest request = new UnityWebRequest();
+            if (method == UnityWebRequest.kHttpVerbGET)
+            {
+                request = UnityWebRequest.Get(url);
+            }
+            else if (method == UnityWebRequest.kHttpVerbPOST)
+            {
+                request = new UnityWebRequest(url, method);
+                byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                if (headers != null)
+                {
+                    foreach (var (key, val) in headers)
+                    {
+                        request.SetRequestHeader(key, val);
+                    }
+                }
+            }
 
+            return request;
+        }
+        protected async UniTask<TResponse> DoPost(UnityWebRequest webRequest)
+        {
             try
             {
-                webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 await webRequest.SendWebRequest().ToUniTask();
                 if (webRequest.result == UnityWebRequest.Result.Success)
                 {

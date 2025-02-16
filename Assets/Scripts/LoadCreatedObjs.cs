@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEditor.PackageManager;
 using UnityEngine;
 [System.Serializable]
     public class Data
@@ -64,6 +65,8 @@ using UnityEngine;
 public class LoadCreatedObjs : MonoBehaviour
 {
     private string _filePath;
+    private List<ClassifyObject> _classifyObjects;
+    public ClassifyGame classifyGame;
     private void Start()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("data"); // No .json extension needed
@@ -74,6 +77,7 @@ public class LoadCreatedObjs : MonoBehaviour
         }
         Debug.Log(jsonFile.text);
         var dataList = JsonConvert.DeserializeObject<List<Data>>(jsonFile.text);
+        _classifyObjects = new List<ClassifyObject>();
         foreach (Data data in dataList)
         {
             Debug.Log(data.Name);
@@ -90,9 +94,30 @@ public class LoadCreatedObjs : MonoBehaviour
             instance.name = data.Name;
             var interactable = instance.AddComponent<InteractableGameObject>();
             instance.AddComponent<MeshCollider>();
+            var colli = instance.GetComponent<MeshCollider>();
+            colli.convex = true;
+
+            instance.AddComponent<Rigidbody>();
+            var rb = instance.GetComponent<Rigidbody>();
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            instance.AddComponent<GrabbableObject>();
+            instance.layer = 12;
+
+            instance.AddComponent<ClassifyObject>();
+            
             interactable.SetConfig(ECategoryType.Class, data.ObjectClass);
+            _classifyObjects.Add(instance.GetComponent<ClassifyObject>());
+
         }
 
+        classifyGame.SetObjectList(_classifyObjects);
+    }
+
+    public List<ClassifyObject> GetClassifyObjects()
+    {
+        return _classifyObjects;
     }
 
     // Update is called once per frame

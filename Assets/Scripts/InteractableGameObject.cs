@@ -38,6 +38,7 @@ public class InteractableGameObject : MonoBehaviour
 
     public void SetConfig(ECategoryType categoryType, string value)
     {
+        Debug.Log($"SetConfig {categoryType} {value} {gameObject.name}");
         _categoryMap.TryAdd(categoryType, value);
         _categoryMap[categoryType] = value;
     }

@@ -12,7 +12,9 @@ public class ClassifyGame : Game
     public AudioClip correct;
     public bool completedSound = false;
 
-    public GameObject Game1;
+    public bool isLoadObject = false;
+
+    // public GameObject Game1;
 
     private int checkWin = 0;
 
@@ -57,9 +59,14 @@ public class ClassifyGame : Game
             {
                 completedSound = true;
                 AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
-                Game1.SetActive(false);
+                gameObject.SetActive(false);
                 yield return new WaitForSeconds(3);
                 completedSound = false;
             }
+    }
+
+    public void SetObjectList(List<ClassifyObject> objects)
+    {
+        _needToClassifyObjects = objects;
     }
 }

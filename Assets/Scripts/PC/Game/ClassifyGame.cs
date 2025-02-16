@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClassifyGame : Game
 {
     [SerializeField] private List<ClassifyObject> _needToClassifyObjects;
-    [SerializeField] private List<GameObject> _bucketObjects;
+    [SerializeField] private List<Bucket> _bucketObjects;
 
     private bool _isPLaying = true;
 

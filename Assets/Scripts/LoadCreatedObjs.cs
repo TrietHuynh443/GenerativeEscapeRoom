@@ -104,6 +104,7 @@ public class LoadCreatedObjs : MonoBehaviour
             // = instance.GetComponent<Rigidbody>();
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
+            rb.drag = 5f;
 
             instance.AddComponent<GrabbableObject>();
             instance.layer = 12;

@@ -59,7 +59,10 @@ public class ClassifyGame : Game
             {
                 completedSound = true;
                 AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
-                gameObject.SetActive(false);
+                if (isEnd == false)
+                {
+                    gameObject.SetActive(false);
+                }
                 yield return new WaitForSeconds(3);
                 completedSound = false;
             }

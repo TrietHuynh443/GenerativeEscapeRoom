@@ -47,7 +47,7 @@ public class ClassifyGame : Game
 
     public override void StartGame()
     {
-        _soundManager = SoundManager.Instance;
+        // _soundManager = SoundManager.Instance;
     }
 
     public override IEnumerator WinGame()

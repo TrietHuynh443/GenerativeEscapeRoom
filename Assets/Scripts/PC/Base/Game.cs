@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class Game : MonoBehaviour
 {
     protected SoundManager _soundManager;
-    public bool _isDone = false;
+    public bool IsDone = false;
 
-    public bool isEnd = false;
+    public bool IsEnd = false;
     // // Start is called before the first frame update
     // void Start()
     // {
@@ -22,7 +22,7 @@ public abstract class Game : MonoBehaviour
 
     void Awake()
     {
-        _soundManager = GameObject.FindObjectOfType<SoundManager>();
+        _soundManager = SoundManager.Instance;
     }
 
     public abstract void StartGame();

@@ -13,8 +13,8 @@ public class TraceGame : Game
     public bool userShift;
 
     public int counter;
-    public int contadorUsusario;
-    public int nivel;
+    public int userCounter;
+    public int level;
 
     [Range(0.1f, 2f)]
     public float Velocidad;
@@ -25,13 +25,13 @@ public class TraceGame : Game
     public AudioClip correct;
     public AudioClip nb;
 
-    public GameObject tUsuario;
+    public GameObject tUser;
     public GameObject tPC;
 
     public GameObject buttons;
     public GameObject btnPlay;
 
-    public GameObject premio;
+    public GameObject award;
 
     public bool completedSound = false;
 
@@ -44,7 +44,7 @@ public class TraceGame : Game
 
     void Update()
     {
-        if (nivel == 5 && turnOnPC)
+        if (level == 5 && turnOnPC)
         {
             StartCoroutine(WinGame());
         }
@@ -60,14 +60,14 @@ public class TraceGame : Game
             _soundManager.PlaySound("Ins8L1");
             yield return new WaitForSeconds(3);
             tPC.SetActive(true);
-            tUsuario.SetActive(false);
+            tUser.SetActive(false);
             _soundManager.activateAnimation("Ins8L1");
 
             yield return new WaitForSeconds(11);
             _soundManager.PlaySound("Ins9L1");
             yield return new WaitForSeconds(3);
             tPC.SetActive(false);
-            tUsuario.SetActive(true);
+            tUser.SetActive(true);
             _soundManager.activateAnimation("Ins9L1");
 
             firstTime = false;
@@ -75,14 +75,14 @@ public class TraceGame : Game
             yield return new WaitForSeconds(9);
             _soundManager.arrow.SetActive(false);
             tPC.SetActive(false);
-            tUsuario.SetActive(false);
+            tUser.SetActive(false);
         }
 
         userShift = false;
         turnOnPC = true;
         counter = 0;
-        contadorUsusario = 0;
-        nivel = 0;
+        userCounter = 0;
+        level = 0;
         RandomList.Clear();
         FillRandomList();
         Invoke("ShowElementsPlay", 2.0f);
@@ -121,7 +121,7 @@ public class TraceGame : Game
         playable = false;
         btnPlay.SetActive(false);
         buttons.SetActive(false);
-        premio.SetActive(true);
+        award.SetActive(true);
         yield return new WaitForSeconds(3);
     }
 
@@ -130,18 +130,18 @@ public class TraceGame : Game
         yield return new WaitForSeconds(1.5f);
         if (userShift)
         {
-            tUsuario.SetActive(true);
+            tUser.SetActive(true);
             tPC.SetActive(false);
         }
         else if (turnOnPC)
         {
             tPC.SetActive(true);
-            tUsuario.SetActive(false);
+            tUser.SetActive(false);
         }
         else
         {
             tPC.SetActive(false);
-            tUsuario.SetActive(false);
+            tUser.SetActive(false);
         }
     }
 
@@ -177,15 +177,15 @@ public class TraceGame : Game
 
     void TurnOnPC()
     {
-        Debug.Log("TurnOnPC");  
+        // Debug.Log("TurnOnPC");  
         if (listFull && turnOnPC)
         {
-            //print("NIVEL "+ nivel +" entra, i= "+ contador + " === BTN " +ListaAleatoria[contador]);
+            //print("level "+ level +" entra, i= "+ contador + " === BTN " +ListaAleatoria[contador]);
 
             btns[RandomList[counter]].Activar();
-            if (counter >= nivel)
+            if (counter >= level)
             {
-                nivel++;
+                level++;
                 ChangeShift();
             }
             else
@@ -198,7 +198,7 @@ public class TraceGame : Game
 
     public void ChangeShift()
     {
-        Debug.Log("ChangeShift");
+        // Debug.Log("ChangeShift");
         AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
         if (turnOnPC)
         {
@@ -212,7 +212,7 @@ public class TraceGame : Game
             turnOnPC = true;
             userShift = false;
             counter = 0;
-            contadorUsusario = 0;
+            userCounter = 0;
             Invoke("TurnOnPC", 3.0f);
         }
         StartCoroutine(CheckSphereShift());
@@ -228,8 +228,8 @@ public class TraceGame : Game
 
     public void PlayUser(int idBtn)
     {
-        // print(" entra, j= "+ contadorUsusario + " === BTN " +ListaAleatoria[contador]);
-        if (idBtn != RandomList[contadorUsusario])
+        // print(" entra, j= "+ userCounter + " === BTN " +ListaAleatoria[contador]);
+        if (idBtn != RandomList[userCounter])
         {
             AudioSource.PlayClipAtPoint(incorrect, Vector3.zero, 2.0f);
             userShift = false;
@@ -238,14 +238,14 @@ public class TraceGame : Game
             Invoke("ButtonPlay", 2.0f);
             return;
         }
-        if (contadorUsusario == counter)
+        if (userCounter == counter)
         {
-            print("Nivel actual" + nivel);
+            // print("level actual" + level);
             ChangeShift();
         }
         else
         {
-            contadorUsusario++;
+            userCounter++;
         }
     }
 }

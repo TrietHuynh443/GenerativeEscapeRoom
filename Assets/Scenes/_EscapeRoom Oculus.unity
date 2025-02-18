@@ -3945,14 +3945,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f4e213fa8d7c349ba1d7dee96b156f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonLight: {fileID: 0}
+  sound: {fileID: 0}
+  anim: {fileID: 292135770}
   btnID: 0
-  intensidadLuz: 4
-  Luz: {fileID: 1357343953}
   desactivando: 0
   desactivado: 0
-  sonido: {fileID: 8300000, guid: 7dc58cc66218cfc4cb70a7d5469f7f41, type: 3}
-  controlador: {fileID: 448837178}
-  anim: {fileID: 292135770}
+  game: {fileID: 0}
 --- !u!1 &296778249
 GameObject:
   m_ObjectHideFlags: 0
@@ -9756,6 +9755,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1325895471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &624129283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4879812892631342180, guid: aa38a516ee1bcc845b499def75552003,
+    type: 3}
+  m_PrefabInstance: {fileID: 1926786529}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &626665262
 GameObject:
   m_ObjectHideFlags: 0
@@ -10041,9 +10046,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 0}
-  submission1: {fileID: 774227113}
-  submission2: {fileID: 738246708}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!4 &644068992 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 459718, guid: 4b650a383c3760f449b65ff48bccdd5f,
@@ -12573,9 +12577,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 0}
-  submission1: {fileID: 774227113}
-  submission2: {fileID: 641733110}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!1 &753426122
 GameObject:
   m_ObjectHideFlags: 0
@@ -13004,9 +13007,8 @@ MonoBehaviour:
   completed: 0
   push: {fileID: 8300000, guid: 4fa000c7fbeef2744bb1fc28e1c79fca, type: 3}
   incorrect: {fileID: 0}
-  submission1: {fileID: 738246708}
-  submission2: {fileID: 641733110}
-  inst4: 0
+  _level: 1
+  isSuccess: 0
 --- !u!1 &782895470
 GameObject:
   m_ObjectHideFlags: 0
@@ -19733,14 +19735,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f4e213fa8d7c349ba1d7dee96b156f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonLight: {fileID: 0}
+  sound: {fileID: 0}
+  anim: {fileID: 1280178633}
   btnID: 3
-  intensidadLuz: 4
-  Luz: {fileID: 1128958009}
   desactivando: 0
   desactivado: 0
-  sonido: {fileID: 8300000, guid: 87ae0a4e6c032584f8fc4fc7ff8ad55b, type: 3}
-  controlador: {fileID: 448837178}
-  anim: {fileID: 1280178633}
+  game: {fileID: 0}
 --- !u!1 &1283695714
 GameObject:
   m_ObjectHideFlags: 0
@@ -23858,14 +23859,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f4e213fa8d7c349ba1d7dee96b156f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonLight: {fileID: 0}
+  sound: {fileID: 0}
+  anim: {fileID: 1480833103}
   btnID: 2
-  intensidadLuz: 7
-  Luz: {fileID: 1464925209}
   desactivando: 0
   desactivado: 0
-  sonido: {fileID: 8300000, guid: a2f1f24d6cf0ce14298975476fd03e97, type: 3}
-  controlador: {fileID: 448837178}
-  anim: {fileID: 1480833103}
+  game: {fileID: 0}
 --- !u!1 &1480841872
 GameObject:
   m_ObjectHideFlags: 0
@@ -30305,11 +30305,19 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100004, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_Name
       value: OVRPlayerController
       objectReference: {fileID: 0}
     - target: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 162066, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -32796,7 +32804,7 @@ MonoBehaviour:
   puertaElevador: {fileID: 1231616777}
   sonidoPing: {fileID: 8300000, guid: d87b28830b4e1ae41afd0dacc2a75df5, type: 3}
   Btnlevel1: {fileID: 1469718565}
-  Btnlevel2: {fileID: 0}
+  Btnlevel2: {fileID: 624129283}
   level1: {fileID: 1751067013}
   level2: {fileID: 0}
   animPuertaCuarto: {fileID: 0}
@@ -36973,11 +36981,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36153c0bcdf55d447a682d4f6965a4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intensityLight: 0
-  Light: {fileID: 0}
+  buttonLight: {fileID: 0}
   sound: {fileID: 8300000, guid: e98bc45c5ab32d94f9fcea3ab3f0b38c, type: 3}
-  controller: {fileID: 448837178}
   anim: {fileID: 2047438243}
+  game: {fileID: 0}
 --- !u!135 &2047438242
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -37985,14 +37992,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f4e213fa8d7c349ba1d7dee96b156f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonLight: {fileID: 0}
+  sound: {fileID: 0}
+  anim: {fileID: 2084283450}
   btnID: 1
-  intensidadLuz: 7
-  Luz: {fileID: 769466539}
   desactivando: 0
   desactivado: 0
-  sonido: {fileID: 8300000, guid: b6e93613351f8cc4badb90f03813971c, type: 3}
-  controlador: {fileID: 448837178}
-  anim: {fileID: 2084283450}
+  game: {fileID: 0}
 --- !u!1 &2086386689
 GameObject:
   m_ObjectHideFlags: 0
@@ -39766,6 +39772,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OVRInteraction
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678269571562373685, guid: 2f94427b8dd14ea498fd92aee3ec9f0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

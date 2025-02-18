@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClassifyGame : Game
 {
-    [SerializeField] private List<ClassifyObject> _needToClassifyObjects;
+    [SerializeField] private List<ClassifyObject> _unclassifiedObjects;
     [SerializeField] private List<Bucket> _bucketObjects;
 
     private bool _isPLaying = true;
@@ -29,7 +29,7 @@ public class ClassifyGame : Game
     public override IEnumerator GameControl()
     {
         // Debug.Log("GameControl");
-        _needToClassifyObjects.ForEach(obj =>
+        _unclassifiedObjects.ForEach(obj =>
         {
             if (!obj.completed){
                 checkWin++;
@@ -47,19 +47,19 @@ public class ClassifyGame : Game
 
     public override void StartGame()
     {
-        _soundManager = GameObject.FindObjectOfType<SoundManager>();
+        _soundManager = SoundManager.Instance;
     }
 
     public override IEnumerator WinGame()
     {
         Debug.Log("WinGame");
         _isPLaying = false;
-        _isDone = true;
+        IsDone = true;
         if (!completedSound)
             {
                 completedSound = true;
                 AudioSource.PlayClipAtPoint(correct, Vector3.zero, 1.0f);
-                if (isEnd == false)
+                if (IsEnd == false)
                 {
                     gameObject.SetActive(false);
                 }
@@ -70,6 +70,6 @@ public class ClassifyGame : Game
 
     public void SetObjectList(List<ClassifyObject> objects)
     {
-        _needToClassifyObjects = objects;
+        _unclassifiedObjects = objects;
     }
 }

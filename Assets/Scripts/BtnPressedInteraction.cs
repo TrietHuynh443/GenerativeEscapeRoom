@@ -102,14 +102,14 @@ public class BtnPressedInteraction : ButtonBase
     public bool desactivando;
     public bool desactivado;
 
-    public TraceGame game;
+    public TraceGame gameController;
 
     public override void Activate()
     {
-        if (!pTouched && (game.userShift))
+        if (!pTouched && (gameController.userShift))
         {
             pTouched = true;
-            if (game.playable)
+            if (gameController.playable)
             {
                 desactivado = false;
                 desactivando = false;
@@ -117,9 +117,9 @@ public class BtnPressedInteraction : ButtonBase
                 buttonLight.gameObject.SetActive(true);
                 StartCoroutine(AnimPlay());
 
-                if (game.userShift)
+                if (gameController.userShift)
                 {
-                    game.PlayUser(btnID);
+                    gameController.PlayUser(btnID);
                 }
 
                 AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
@@ -133,7 +133,7 @@ public class BtnPressedInteraction : ButtonBase
 
     public void Activar()
     {
-        if (game.playable)
+        if (gameController.playable)
         {
             desactivado = false;
             desactivando = false;
@@ -141,9 +141,9 @@ public class BtnPressedInteraction : ButtonBase
             buttonLight.gameObject.SetActive(true);
             StartCoroutine(AnimPlay());
 
-            if (game.userShift)
+            if (gameController.userShift)
             {
-                game.PlayUser(btnID);
+                gameController.PlayUser(btnID);
             }
 
             AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
@@ -172,7 +172,7 @@ public class BtnPressedInteraction : ButtonBase
 
     IEnumerator OnTriggerEnter()
     {
-        if (!pTouched && game.userShift)
+        if (!pTouched && gameController.userShift)
         {
             pTouched = true;
             Activate();

@@ -16,7 +16,7 @@ public class Room : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(games[currentGame]._isDone)
+        if(games[currentGame].IsDone)
         {
             if(currentGame < games.Count - 1)
             {

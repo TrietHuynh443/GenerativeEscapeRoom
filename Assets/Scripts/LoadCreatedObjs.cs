@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEditor.PackageManager;
 using UnityEngine;
 [System.Serializable]
     public class Data
@@ -90,15 +89,15 @@ public class LoadCreatedObjs : MonoBehaviour
 
             GameObject instance = Instantiate(prefab);
             instance.transform.SetPositionAndRotation(data.ObjectPosition.AsVector3,
-            Quaternion.Euler(data.ObjectRotation.X, data.ObjectRotation.Y, data.ObjectRotation.Z));
+                Quaternion.Euler(data.ObjectRotation.X, data.ObjectRotation.Y, data.ObjectRotation.Z));
             instance.name = data.Name;
 
             var interactable = instance.AddComponent<InteractableGameObject>();
             interactable.SetConfig(ECategoryType.Class, data.ObjectClass);
 
-            var colli = instance.AddComponent<MeshCollider>();
+            var colliderRidgid = instance.AddComponent<MeshCollider>();
             // var colli = instance.GetComponent<MeshCollider>();
-            colli.convex = true;
+            colliderRidgid.convex = true;
 
             var rb = instance.AddComponent<Rigidbody>();
             // = instance.GetComponent<Rigidbody>();
@@ -109,9 +108,9 @@ public class LoadCreatedObjs : MonoBehaviour
             instance.AddComponent<GrabbableObject>();
             instance.layer = 12;
 
-            instance.AddComponent<LoadtagClassifyObject>();
+            instance.AddComponent<LoadTagClassifyObject>();
             
-            _classifyObjects.Add(instance.GetComponent<LoadtagClassifyObject>());
+            _classifyObjects.Add(instance.GetComponent<LoadTagClassifyObject>());
         }
 
         classifyGame.SetObjectList(_classifyObjects);

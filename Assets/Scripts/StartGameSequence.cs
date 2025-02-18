@@ -62,6 +62,7 @@ using UnityEngine;
 
 public class StartGameSequence : ButtonBase
 {
+    public TraceGame game;
     void Update()
     {
 #if UNITY_EDITOR_WIN
@@ -86,7 +87,7 @@ public class StartGameSequence : ButtonBase
             buttonLight.gameObject.SetActive(true);
             StartCoroutine(AnimPlay());
             AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
-            StartCoroutine(controller.Play());
+            StartCoroutine(game.GameControl());
             pTouched = false;
         }
     }

@@ -7,11 +7,12 @@ TagManager:
   - btn
   - mano
   - interactivo
+  - Bucket
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Button
   - Water
   - UI
   - 

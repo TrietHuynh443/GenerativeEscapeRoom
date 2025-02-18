@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
     {
         if (!_canPlay)
             StartCoroutine(CheckRequirementPlay());
-        if ((nivel == 5 && turnOnPC) || Input.GetKeyDown(KeyCode.Return))
+        if (nivel == 5 && turnOnPC)
         {
             WinGame();
         }

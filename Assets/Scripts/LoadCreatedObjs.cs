@@ -64,6 +64,8 @@ using UnityEngine;
 public class LoadCreatedObjs : MonoBehaviour
 {
     private string _filePath;
+    private List<ClassifyObject> _classifyObjects;
+    public ClassifyGame classifyGame;
     private void Start()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("data"); // No .json extension needed
@@ -74,6 +76,7 @@ public class LoadCreatedObjs : MonoBehaviour
         }
         Debug.Log(jsonFile.text);
         var dataList = JsonConvert.DeserializeObject<List<Data>>(jsonFile.text);
+        _classifyObjects = new List<ClassifyObject>();
         foreach (Data data in dataList)
         {
             Debug.Log(data.Name);
@@ -88,11 +91,34 @@ public class LoadCreatedObjs : MonoBehaviour
             instance.transform.SetPositionAndRotation(data.ObjectPosition.AsVector3,
                 Quaternion.Euler(data.ObjectRotation.X, data.ObjectRotation.Y, data.ObjectRotation.Z));
             instance.name = data.Name;
+
             var interactable = instance.AddComponent<InteractableGameObject>();
-            instance.AddComponent<MeshCollider>();
             interactable.SetConfig(ECategoryType.Class, data.ObjectClass);
+
+            var colliderRidgid = instance.AddComponent<MeshCollider>();
+            // var colli = instance.GetComponent<MeshCollider>();
+            colliderRidgid.convex = true;
+
+            var rb = instance.AddComponent<Rigidbody>();
+            // = instance.GetComponent<Rigidbody>();
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            rb.drag = 5f;
+
+            instance.AddComponent<GrabbableObject>();
+            instance.layer = 12;
+
+            instance.AddComponent<LoadTagClassifyObject>();
+            
+            _classifyObjects.Add(instance.GetComponent<LoadTagClassifyObject>());
         }
 
+        classifyGame.SetObjectList(_classifyObjects);
+    }
+
+    public List<ClassifyObject> GetClassifyObjects()
+    {
+        return _classifyObjects;
     }
 
     // Update is called once per frame

@@ -45,6 +45,7 @@ public class Submission : MonoBehaviour
     {
         if (collision.name == name)
         {
+            Debug.Log("Correct===========================================================================");
             Success();
         }
         else

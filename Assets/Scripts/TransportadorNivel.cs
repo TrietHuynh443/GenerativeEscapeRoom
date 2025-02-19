@@ -34,10 +34,10 @@ public class ConveyorLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(OnTriggerEnter(null));
-        }
+        // if (Input.GetKeyDown(KeyCode.LeftShift))
+        // {
+        //     StartCoroutine(OnTriggerEnter(null));
+        // }
     }
 
     IEnumerator OnTriggerEnter(Collider col)

@@ -92,13 +92,8 @@ public class StartGameSequence : ButtonBase
         }
     }
 
-    // void OnTriggerEnter()
-    // {
-    //     if (!pTouched)
-    //     {
-    //         pTouched = true;
-    //         Activate();
-    //         pTouched = false;
-    //     }
-    // }
+    public void OnTriggerEnter()
+    {
+        Activate();
+    }
 }

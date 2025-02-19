@@ -22,7 +22,7 @@ public abstract class Game : MonoBehaviour
 
     void Awake()
     {
-        _soundManager = SoundManager.Instance;
+        _soundManager = GameObject.FindObjectOfType<SoundManager>();
     }
 
     public abstract void StartGame();

@@ -24,5 +24,7 @@ public class CheckInstruction : MonoBehaviour
             StartCoroutine(soundManager.ChangeScreenInstruction("Ins3L1", "3Ins", "", 0, 2, 0));
             instruction = true;
         }
+
+        Debug.Log(collision.name + "========================================================");
     }
 }

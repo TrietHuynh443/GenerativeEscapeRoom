@@ -78,22 +78,25 @@ public class StartGameSequence : ButtonBase
 
     public override void Activate()
     {
-        Debug.Log("StartGameSequence started in editor mode");
-        if (!pTouched)
-        {
-            Debug.Log("StartGameSequence started in editor mode 2");
-            pTouched = true;
-            buttonLight.intensity = initialLightIntensity;
-            buttonLight.gameObject.SetActive(true);
-            StartCoroutine(AnimPlay());
-            AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
-            StartCoroutine(game.GameControl());
-            pTouched = false;
-        }
+        Debug.Log("StartGameSequence started in editor mode 2");
+        // pTouched = true;
+        buttonLight.intensity = initialLightIntensity;
+        buttonLight.gameObject.SetActive(true);
+        StartCoroutine(AnimPlay());
+        AudioSource.PlayClipAtPoint(sound, Vector3.zero, 1.0f);
+        StartCoroutine(game.GameControl());
+        // pTouched = false;
+
     }
 
-    public void OnTriggerEnter()
+    IEnumerator OnTriggerEnter()
     {
-        Activate();
+        if (!pTouched)
+        {
+            pTouched = true;
+            Activate();
+            yield return new WaitForSeconds(2);
+            pTouched = false;
+        }
     }
 }

@@ -70,6 +70,8 @@ public class LoadCreatedObjs : MonoBehaviour
     private List<ClassifyObject> _classifyObjects;
     public ClassifyGame classifyGame;
     public GameObject AudioGrabbableOVRObject;
+    
+    public Game gameControll;
     private void Start()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("data"); // No .json extension needed
@@ -106,11 +108,13 @@ public class LoadCreatedObjs : MonoBehaviour
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.drag = 5f;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
             instance.AddComponent<GrabbableObject>();
             instance.layer = 12;
 
-            instance.AddComponent<LoadTagClassifyObject>();
+            var loadTagObj = instance.AddComponent<LoadTagClassifyObject>();
+            loadTagObj.classifyGame = classifyGame;
 
             AttachOculusInstance(instance);
             
@@ -136,6 +140,7 @@ public class LoadCreatedObjs : MonoBehaviour
 
         var pointableUEW = instance.AddComponent<PointableUnityEventWrapper>();
         pointableUEW.InjectPointable(instance.GetComponent<Grabbable>());
+        pointableUEW.InjectAllPointableUnityEventWrapper(instance.GetComponent<Grabbable>());
 
         // Add audio to PointableEvent when Select
         // var audioSource = audioGrabbableOvrObjectInstance.GetComponent<AudioSource>();
@@ -159,12 +164,28 @@ public class LoadCreatedObjs : MonoBehaviour
 
         var rootMeshFilter = root.AddComponent<MeshFilter>();    // chua duoc
         rootMeshFilter.sharedMesh = instance.GetComponent<MeshFilter>().sharedMesh;
+        
+        string materialPath = "RecursosTutoriales/PlataformasCubos";
+
+        Texture2D texture = Resources.Load<Texture2D>(materialPath);
+
+        if (texture == null)
+        {
+            Debug.LogError("Texture not found in Resources!");
+            return;
+        }
+
+        Material newMaterial = new Material(Shader.Find("Standard"));
+        newMaterial.mainTexture = texture;
 
         var rootMeshRenderer = root.AddComponent<MeshRenderer>();  // chua duoc
         rootMeshRenderer.sharedMaterials = instance.GetComponent<MeshRenderer>().sharedMaterials;
+        rootMeshRenderer.material = newMaterial;
 
         var rootCollider = root.AddComponent<MeshCollider>();
         rootCollider.convex = true;
+
+        
 
         var visualMaterialPropertyBlockEditor = visual.AddComponent<MaterialPropertyBlockEditor>();
         List<Renderer> materials = new List<Renderer>();

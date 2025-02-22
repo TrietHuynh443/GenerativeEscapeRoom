@@ -12,9 +12,9 @@ namespace Manager
     {
         [Injector]
         private readonly IEventHandlerService _eventHandlerService;
-        private readonly ModelCommandSender _modelCommandSender;
+        private readonly ModelCommandSender _modelCommandSender = new ModelCommandSender();
 
-        private void OnEnable()
+        private void Start()
         {
             _eventHandlerService.AddEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }
@@ -35,7 +35,7 @@ namespace Manager
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _eventHandlerService?.RemoveEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }

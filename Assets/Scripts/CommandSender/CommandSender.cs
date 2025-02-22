@@ -101,6 +101,7 @@ namespace CommandSender
                         UploadStream = new JSonDataStream<T>(payload)
                     }
                 };
+                httpRequest.DownloadSettings.ContentStreamMaxBuffered = long.MaxValue;
                 httpRequest.AddHeader("Content-Type", "application/zip");
                 var res = await httpRequest.GetHTTPResponseAsync();
                 if (res == null)

@@ -107,6 +107,7 @@ namespace UI
             {
                 Prompt = _prompt.text
             };
+            Debug.Log(evt.ToString());
             _eventAggregator.RaiseEvent(evt);
         }
     }

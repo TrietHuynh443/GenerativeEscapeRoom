@@ -6,7 +6,7 @@ namespace EventProcessing
 {
     public class EventAggregator : IEventHandlerService
     {
-        private Dictionary<Type, List<Delegate>> _eventActionMap = new();
+        private readonly Dictionary<Type, List<Delegate>> _eventActionMap = new();
 
         public void RaiseEvent<T>(T payload) where T : IEvent
         {

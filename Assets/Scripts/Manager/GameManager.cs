@@ -12,17 +12,22 @@ namespace Manager
     {
         [Injector]
         private readonly IEventHandlerService _eventHandlerService;
+        private readonly ModelCommandSender _modelCommandSender;
 
-        private void Start()
+        private void OnEnable()
         {
-            // _eventHandlerService.AddEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
+            _eventHandlerService.AddEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }
 
         private async void SendCreateNewModelCommand(OnCreateNewModelEvent evt)
         {
             try
             {
-                // var model = await _commandSender.Gen3DModel(evt.Prompt, "test");
+                Debug.Log("Send CreateNewModelCommand");
+                await _modelCommandSender.Send(new ()
+                {
+                    ModelName = "monkey"
+                });
             }
             catch (Exception e)
             {
@@ -30,9 +35,9 @@ namespace Manager
             }
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            // _eventHandlerService.RemoveEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
+            _eventHandlerService?.RemoveEventListener<OnCreateNewModelEvent>(SendCreateNewModelCommand);
         }
     }
 }

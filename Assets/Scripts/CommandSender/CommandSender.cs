@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Best.HTTP;
+using Best.HTTP.Request.Upload;
 using Cysharp.Threading.Tasks;
 using HttpCommand;
 using Newtonsoft.Json;
@@ -13,7 +15,7 @@ namespace CommandSender
         where TRequest : BaseRequest
         where TResponse : BaseResponse
     {
-        protected readonly string BaseUrl  = "https://localhost:8000";
+        protected readonly string BaseUrl  = "http://localhost:8000";
         protected string Url { get; set; }
         public abstract Task Send(TRequest request);
         protected async UniTask<TResponse> DoGet(TRequest request)
@@ -58,13 +60,13 @@ namespace CommandSender
                 byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-                if (headers != null)
+            }
+            request.SetRequestHeader("Content-Type", "application/json");
+            if (headers != null)
+            {
+                foreach (var (key, val) in headers)
                 {
-                    foreach (var (key, val) in headers)
-                    {
-                        request.SetRequestHeader(key, val);
-                    }
+                    request.SetRequestHeader(key, val);
                 }
             }
 
@@ -87,5 +89,33 @@ namespace CommandSender
 
             return null;
         }
+
+        protected async UniTask<byte[]> DoDownload<T>(T payload, HTTPMethods method = HTTPMethods.Post) where T : BaseRequest
+        {
+            try
+            {
+                var httpRequest = new HTTPRequest(Url, method)
+                {
+                    UploadSettings =
+                    {
+                        UploadStream = new JSonDataStream<T>(payload)
+                    }
+                };
+                httpRequest.AddHeader("Content-Type", "application/zip");
+                var res = await httpRequest.GetHTTPResponseAsync();
+                if (res == null)
+                {
+                    Debug.LogError("Request failed");
+                    return null;
+                }
+                return res.Data;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Request failed: {e.Message}");
+                return null;
+            }
+        }
+        
     }
 }

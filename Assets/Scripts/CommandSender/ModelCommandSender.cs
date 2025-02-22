@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Dummiesman;
@@ -14,7 +16,7 @@ namespace CommandSender
     {
         public ModelCommandSender()
         {
-            Url = $"{BaseUrl}/create-model";
+            Url = $"{BaseUrl}/create-model3D";
             //Test
             // Url = "https://people.sc.fsu.edu/~jburkardt/data/obj/lamp.obj";
         }
@@ -99,9 +101,31 @@ namespace CommandSender
         //     Debug.LogWarning("Response from SendCommand was null.");
         //     return null;
         // }
-        public override Task Send(CreateModelRequest request)
+        public override async Task Send(CreateModelRequest request)
         {
-            throw new NotImplementedException();
+            byte[] rawData = await DoDownload<CreateModelRequest>(request);
+            if (rawData != null)
+            {
+                ExtractZipFromMemory(rawData);
+            }
+        }
+        
+        private Dictionary<string, byte[]> ExtractZipFromMemory(byte[] zipBytes)
+        {
+            Dictionary<string, byte[]> extractedFiles = new Dictionary<string, byte[]>();
+
+            using MemoryStream memoryStream = new MemoryStream(zipBytes);
+            using ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Read);
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                using var entryStream = entry.Open();
+                using var ms = new MemoryStream();
+                entryStream.CopyTo(ms);
+                Debug.Log($"Extracting file {entry.Name}...{entry.FullName}");
+                extractedFiles[entry.Name] = ms.ToArray();
+            }
+
+            return extractedFiles;
         }
     }
 }

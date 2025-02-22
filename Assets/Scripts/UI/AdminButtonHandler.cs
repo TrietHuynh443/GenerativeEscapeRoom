@@ -81,7 +81,7 @@ namespace UI
 
         private void GetInteractableSuccessAction(OnDraggingInteractableObjEvent obj)
         {
-            if (obj.InteractableObj == null)
+            if (!obj.InteractableObj)
             {
                 // _saveModelButton.interactable = false;
                 // _categoryDropdown.interactable = false;

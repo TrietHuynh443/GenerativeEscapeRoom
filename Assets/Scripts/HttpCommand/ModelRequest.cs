@@ -18,11 +18,10 @@ namespace HttpCommand
     {
         [JsonProperty("prompt")]
         public string Prompt { get; set; }
-        // public override byte[] ToBody()
-        // {
-        //     var rawBody = JsonConvert.SerializeObject(this);
-        //     return Encoding.UTF8.GetBytes(rawBody);
-        // }
+        [JsonProperty("model_name")]
+        public string ModelName { get; set; }
+        [JsonProperty("max_face_nums")]
+        public int MaxFaceNums { get; set; }
     }
 
     public class CreateModelResponse : BaseResponse

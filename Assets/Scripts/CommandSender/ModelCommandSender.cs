@@ -4,12 +4,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using Dummiesman;
 using HttpCommand;
-using Interface.Services;
 using UnityEngine;
-using UnityEngine.Networking;
+using static UnityEngine.Screen;
 
 namespace CommandSender
 {
@@ -107,9 +105,21 @@ namespace CommandSender
 
         private void InitModelComponents(GameObject model)
         {
+            Vector3 initPos = Vector3.zero;
+            var camera = Camera.current;
+
+            if (camera != null)
+            {
+                initPos = camera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2,
+                    camera.nearClipPlane + 1f));
+            }
+
             var child = model.transform.GetChild(0);
             if (child == null)
                 return;
+            child.transform.position = initPos;
+            Debug.Log($"init position: {initPos}");
+
             var meshCollider = child.gameObject.AddComponent<MeshCollider>();
             meshCollider.convex = true;
             child.gameObject.AddComponent<InteractableGameObject>();

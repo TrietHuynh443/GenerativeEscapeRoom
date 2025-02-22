@@ -77,6 +77,7 @@ public class LoadCreatedObjs : MonoBehaviour
         Debug.Log(jsonFile.text);
         var dataList = JsonConvert.DeserializeObject<List<Data>>(jsonFile.text);
         _classifyObjects = new List<ClassifyObject>();
+        //replace with server code
         foreach (Data data in dataList)
         {
             Debug.Log(data.Name);
@@ -119,11 +120,5 @@ public class LoadCreatedObjs : MonoBehaviour
     public List<ClassifyObject> GetClassifyObjects()
     {
         return _classifyObjects;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

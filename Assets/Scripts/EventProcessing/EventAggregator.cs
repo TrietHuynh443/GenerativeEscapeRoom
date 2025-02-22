@@ -1,54 +1,62 @@
 using System;
 using System.Collections.Generic;
-using EventProcessing;
 using Interface.Services;
 
-public class EventAggregator : IEventHandlerService
+namespace EventProcessing
 {
-    private Dictionary<Type, List<Action<IEvent>>> _eventActionMap = new();
-
-    public void RaiseEvent<T>(T payload) where T : IEvent
+    public class EventAggregator : IEventHandlerService
     {
-        if (!_eventActionMap.ContainsKey(typeof(T)))
+        private Dictionary<Type, List<Delegate>> _eventActionMap = new();
+
+        public void RaiseEvent<T>(T payload) where T : IEvent
         {
-            return;
+            if (!_eventActionMap.ContainsKey(typeof(T)))
+            {
+                return;
+            }
+
+            foreach (var action in _eventActionMap[typeof(T)])
+            {
+                action?.DynamicInvoke(payload);
+            }
         }
 
-        foreach (var action in _eventActionMap[typeof(T)])
+        public void AddEventListener<T>(Action<T> action) where T : IEvent
         {
-            action.Invoke(payload);
+            if (!_eventActionMap.ContainsKey(typeof(T)))
+            {
+                _eventActionMap.Add(typeof(T), new List<Delegate>());
+            }
+            _eventActionMap[typeof(T)].Add(action);
         }
-    }
 
-    public void AddEventListener<T>(Action<T> action) where T : IEvent
-    {
-        if (!_eventActionMap.ContainsKey(typeof(T)))
+        public void RemoveEventListener<T>(Action<T> action) where T : IEvent
         {
-            _eventActionMap.Add(typeof(T), new List<Action<IEvent>>());
-        }
-        _eventActionMap[typeof(T)].Add(e => action((T)e));
-    }
-    
-    public void RemoveEventListener<T>(Action<T> action) where T : IEvent
-    {
-        if (_eventActionMap.ContainsKey(typeof(T)))
-        {
-            _eventActionMap[typeof(T)].RemoveAll(a => a != null &&
-                                                      a.Target == action.Target &&
-                                                      a.Method == action.Method);
-        }
-    }
+            if (action == null) 
+                return;
 
-    public void RemoveAllEventListeners<T>() where T : IEvent
-    {
-        if (_eventActionMap.ContainsKey(typeof(T)))
-        {
-            _eventActionMap[typeof(T)].Clear();
-        }
-    }
+            if (_eventActionMap.TryGetValue(typeof(T), out var actions))
+            {
+                actions.Remove(action);
 
-    public void RemoveAll()
-    {
-        _eventActionMap.Clear();
+                if (actions.Count == 0)
+                {
+                    _eventActionMap.Remove(typeof(T)); // Clean up empty lists
+                }
+            }
+        }
+
+        public void RemoveAllEventListeners<T>() where T : IEvent
+        {
+            if (_eventActionMap.ContainsKey(typeof(T)))
+            {
+                _eventActionMap[typeof(T)].Clear();
+            }
+        }
+
+        public void RemoveAll()
+        {
+            _eventActionMap.Clear();
+        }
     }
 }

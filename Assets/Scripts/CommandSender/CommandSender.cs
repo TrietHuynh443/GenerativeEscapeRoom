@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Best.HTTP;
 using Best.HTTP.Request.Upload;
@@ -72,6 +73,25 @@ namespace CommandSender
 
             return request;
         }
+
+        protected async UniTask<List<TResponse>> DoGet(UnityWebRequest webRequest)
+        {
+            try
+            {
+                await webRequest.SendWebRequest().ToUniTask();
+                if (webRequest.result == UnityWebRequest.Result.Success)
+                {
+                    return JsonConvert.DeserializeObject<List<TResponse>>(webRequest.downloadHandler.text);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Request failed: {e.Message}");
+            }
+
+            return null;
+        }
+        
         protected async UniTask<TResponse> DoPost(UnityWebRequest webRequest)
         {
             try
@@ -90,26 +110,22 @@ namespace CommandSender
             return null;
         }
 
-        protected async UniTask<byte[]> DoDownload<T>(T payload, HTTPMethods method = HTTPMethods.Post) where T : BaseRequest
+        // ReSharper disable Unity.PerformanceAnalysis
+        protected async UniTask<byte[]> DoDownload<T>(string url, T payload, HTTPMethods method = HTTPMethods.Post) where T : BaseRequest
         {
             try
             {
-                var httpRequest = new HTTPRequest(Url, method)
-                {
-                    UploadSettings =
-                    {
-                        UploadStream = new JSonDataStream<T>(payload)
-                    }
-                };
-                httpRequest.DownloadSettings.ContentStreamMaxBuffered = long.MaxValue;
-                httpRequest.AddHeader("Content-Type", "application/zip");
-                var res = await httpRequest.GetHTTPResponseAsync();
+                UnityWebRequest request = CreateRequest(url, UnityWebRequest.kHttpVerbPOST, JsonConvert.SerializeObject(payload), null);
+                Debug.Log("Send " + JsonConvert.SerializeObject(payload));
+                await request.SendWebRequest().ToUniTask();
+                var res = request.downloadHandler.data;
                 if (res == null)
                 {
                     Debug.LogError("Request failed");
                     return null;
                 }
-                return res.Data;
+
+                return res;
             }
             catch (Exception e)
             {

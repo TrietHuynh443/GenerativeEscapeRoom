@@ -24,10 +24,29 @@ namespace Manager
             try
             {
                 Debug.Log("Send CreateNewModelCommand");
-                await _modelCommandSender.Send(new ()
+                var res = await _modelCommandSender.CreateModel(new ()
                 {
-                    ModelName = "monkey"
+                    Prompt = evt.Prompt,
                 });
+
+                if (res == null)
+                {
+                    Debug.Log("Send CreateNewModelCommand failed");
+                }
+                else
+                {
+                    Debug.Log("Send CreateNewModelCommand succeeded");
+                    GameObject model = await _modelCommandSender.GetModelObj(new()
+                    {
+                        ModelId = res.Id
+                    });
+                    if (model == null)
+                    {
+                        Debug.Log($"Load {res.Id} failed");
+                        return;
+                    }
+                    model.gameObject.name = res.Id;
+                }
             }
             catch (Exception e)
             {

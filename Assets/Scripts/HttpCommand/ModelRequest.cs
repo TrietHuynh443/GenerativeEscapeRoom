@@ -6,7 +6,8 @@ namespace HttpCommand
 {
     public class GetModelRequest : BaseRequest
     {
-        
+        [JsonProperty("model_id")]
+        public string ModelId { get; set; }
     }
 
     public class GetModelGetResponse : BaseResponse
@@ -18,20 +19,12 @@ namespace HttpCommand
     {
         [JsonProperty("prompt")]
         public string Prompt { get; set; }
-        [JsonProperty("model_name")]
-        public string ModelName { get; set; }
-        [JsonProperty("max_face_nums")]
-        public int MaxFaceNums { get; set; }
     }
 
     public class CreateModelResponse : BaseResponse
     {
-        [JsonProperty("model")]
-        public string Model { get; set; }
-        [JsonProperty("textureData")]
-        public string TextureData { get; set; }
-        [JsonProperty("mtlData")]
-        public string MtlData { get; set; }
+        [JsonProperty("output")]
+        public string Id { get; set; }
     }
 
     public class LLMRequest : UpdateRequest

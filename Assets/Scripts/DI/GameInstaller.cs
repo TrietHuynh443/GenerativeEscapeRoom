@@ -1,4 +1,5 @@
 ﻿using CommandSender;
+using EventProcessing;
 using Interface.MonoBehaviorServices;
 using Interface.Services;
 using Manager;
@@ -18,7 +19,7 @@ namespace DI
         private void Awake()
         {
             _dependenciesProvider = gameObject.AddComponent<DependenciesProvider>();
-            _dependenciesProvider.Register<IModelCommandSenderService>(() => new ModelCommandSender());
+            // _dependenciesProvider.Register<IModelCommandSenderService>(() => new ModelCommandSender());
             _dependenciesProvider.Register<IEventHandlerService>(() => new EventAggregator());
             
             _dependenciesProvider.Register<ExampleMonoServices>(null);

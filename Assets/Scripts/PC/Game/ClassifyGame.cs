@@ -7,7 +7,12 @@ public class ClassifyGame : Game
     [SerializeField] private List<ClassifyObject> _unclassifiedObjects;
     [SerializeField] private List<Bucket> _bucketObjects;
 
-    private bool _isPLaying = true;
+    private bool _isPLaying = false;
+    public bool IsPlaying
+    {
+        get => _isPLaying;
+        set => _isPLaying = value;
+    }
 
     public AudioClip correct;
     public bool completedSound = false;

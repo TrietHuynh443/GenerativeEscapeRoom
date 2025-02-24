@@ -24,5 +24,5 @@ public abstract class ButtonBase : MonoBehaviour
         anim.SetBool("press", false);
     }
 
-    public virtual void Activate(){}
+    public virtual void Activate() { }
 }

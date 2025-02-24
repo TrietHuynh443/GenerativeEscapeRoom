@@ -21,7 +21,7 @@ public class ConveyorLevel : MonoBehaviour
     void Awake()
     {
         soundManager = GameObject.FindObjectOfType<SoundManager>();
-    }  
+    }
 
     private void Start()
     {
@@ -34,43 +34,47 @@ public class ConveyorLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(OnTriggerEnter(null));
-        }
+        // if (Input.GetKeyDown(KeyCode.LeftShift))
+        // {
+        //     StartCoroutine(OnTriggerEnter(null));
+        // }
     }
 
     IEnumerator OnTriggerEnter(Collider col)
     {
-        if (!pTouched)
+        if (col.tag.Equals("PlayerBody"))
         {
-            pTouched = true;
-            AudioClip sonido = Resources.Load<AudioClip>("Sonidos/elevator_movingup");
-            MusicSource.PlayOneShot(sonido);
-            anim.SetBool("cerrar", true);
-            yield return new WaitForSeconds(2);
-            level1.SetActive(false);
-            level2.SetActive(true);
-            yield return new WaitForSeconds(6);
-            MusicSource.Stop();
-            MusicSource.PlayOneShot(sonidoPing);
-            Btnlevel1.SetActive(false);
-            Btnlevel2.SetActive(true);
-            anim.SetBool("abrir", true);
-            yield return new WaitForSeconds(2.1f);
-            puertaElevador.SetActive(false);
-            // animPuertaCuarto.SetBool("abrir", true);
-            // btnJugar.SetActive(false);
-            // soundManager.PlaySound("Ins1L2");
-            // StartCoroutine(soundManager.ChangeScreenInstruction("Ins1L2", "Ins1L2", "", 0, 0, 0));
-            // yield return new WaitForSeconds(13);
-            // soundManager.PlaySound("Ins2L2");
-            // StartCoroutine(soundManager.CambiarInstruccionPantalla2("Ins2L2", 0, "Ins2L2", 0));
-            // yield return new WaitForSeconds(13);
-            // soundManager.PlaySound("Ins3L2");
-            // StartCoroutine(soundManager.CambiarInstruccionPantalla2("Ins3L2", 0, "Ins2L2", 0));
-            // yield return new WaitForSeconds(13);
-            // btnJugar.SetActive(true);
+            if (!pTouched)
+            {
+                pTouched = true;
+                AudioClip sonido = Resources.Load<AudioClip>("Sonidos/elevator_movingup");
+                MusicSource.PlayOneShot(sonido);
+                anim.SetBool("cerrar", true);
+                yield return new WaitForSeconds(2);
+                level1.SetActive(false);
+                level2.SetActive(true);
+                yield return new WaitForSeconds(6);
+                MusicSource.Stop();
+                MusicSource.PlayOneShot(sonidoPing);
+                Btnlevel1.SetActive(false);
+                Btnlevel2.SetActive(true);
+                anim.SetBool("abrir", true);
+                yield return new WaitForSeconds(2.1f);
+                puertaElevador.SetActive(false);
+                soundManager.PlaySound("Ins1L3");
+                // animPuertaCuarto.SetBool("abrir", true);
+                // btnJugar.SetActive(false);
+                // soundManager.PlaySound("Ins1L2");
+                // StartCoroutine(soundManager.ChangeScreenInstruction("Ins1L2", "Ins1L2", "", 0, 0, 0));
+                // yield return new WaitForSeconds(13);
+                // soundManager.PlaySound("Ins2L2");
+                // StartCoroutine(soundManager.CambiarInstruccionPantalla2("Ins2L2", 0, "Ins2L2", 0));
+                // yield return new WaitForSeconds(13);
+                // soundManager.PlaySound("Ins3L2");
+                // StartCoroutine(soundManager.CambiarInstruccionPantalla2("Ins3L2", 0, "Ins2L2", 0));
+                // yield return new WaitForSeconds(13);
+                // btnJugar.SetActive(true);
+            }
         }
     }
 

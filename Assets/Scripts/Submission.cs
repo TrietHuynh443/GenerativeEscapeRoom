@@ -43,8 +43,11 @@ public class Submission : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log("Bucket " + collision.name + "========================================================");
+        
         if (collision.name == name)
         {
+            Debug.LogWarning("Correct");
             Success();
         }
         else

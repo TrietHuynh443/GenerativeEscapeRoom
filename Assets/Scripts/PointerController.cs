@@ -42,7 +42,7 @@ namespace DI
                 _interactableGameObject = GetInteractableObject();
                 if (_interactableGameObject != null)
                 {
-                    _camera.gameObject.GetComponent<CameraMoveHandler>().enabled = false;
+                    // _camera.gameObject.GetComponent<CameraMoveHandler>().enabled = false;
                     _startMousePosition = Input.mousePosition;
                     _isDragging = true;
                 }

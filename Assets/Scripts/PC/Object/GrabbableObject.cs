@@ -33,4 +33,12 @@ public class GrabbableObject : MonoBehaviour
             // rb.MoveRotation(grabPoint.rotation);
         }
     }
+
+    void OgTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            Debug.Log("Player");
+        }
+    }
 }

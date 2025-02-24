@@ -18,11 +18,13 @@ public class CheckInstruction : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         //mano is hand
-        if ((collision.tag.Equals("mano")) && !instruction && (!submision1.instruction) && (!submision2.instruction)) 
+        if ((collision.tag.Equals("Player")) && !instruction && (!submision1.instruction) && (!submision2.instruction)) 
         {
             soundManager.PlaySound("Ins3L1");
             StartCoroutine(soundManager.ChangeScreenInstruction("Ins3L1", "3Ins", "", 0, 2, 0));
             instruction = true;
         }
+
+        Debug.Log(collision.name + "========================================================");
     }
 }

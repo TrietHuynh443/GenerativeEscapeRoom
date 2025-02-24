@@ -57,7 +57,7 @@ public class PlayerPickUpDrop : MonoBehaviour
             if (hit.transform.TryGetComponent(out grabbableObject))
             {
                 Debug.Log("Picking up");
-                grabbableObject.GetComponent<Collider>().isTrigger = true;
+                // grabbableObject.GetComponent<Collider>().isTrigger = true;
                 grabbableObject.Grab(grabPoint);
             }
         }
@@ -65,7 +65,7 @@ public class PlayerPickUpDrop : MonoBehaviour
 
     private void DropObject()
     {
-        grabbableObject.GetComponent<Collider>().isTrigger = false;
+        // grabbableObject.GetComponent<Collider>().isTrigger = false;
         grabbableObject.Drop();
         grabbableObject = null;
     }

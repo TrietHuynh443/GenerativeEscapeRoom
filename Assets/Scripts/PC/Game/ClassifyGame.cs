@@ -14,6 +14,10 @@ public class ClassifyGame : Game
 
     public bool isLoadObject = false;
 
+    public bool isSuccess = false;
+
+    public bool isGrabobjectFirstTime = false;
+
     // public GameObject Game1;
 
     private int checkWin = 0;
@@ -47,6 +51,8 @@ public class ClassifyGame : Game
 
     public override void StartGame()
     {
+        isSuccess = false;
+        isGrabobjectFirstTime = false;
         _soundManager = SoundManager.Instance;
     }
 

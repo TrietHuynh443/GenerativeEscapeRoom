@@ -89,10 +89,6 @@ using UnityEngine;
 //     {
 //         Activar();
 //     }*/
-
-
-
-
 // }
 
 
@@ -106,6 +102,7 @@ public class BtnPressedInteraction : ButtonBase
 
     public override void Activate()
     {
+        Debug.Log(pTouched);
         if (!pTouched && (gameController.userShift))
         {
             pTouched = true;
@@ -175,9 +172,20 @@ public class BtnPressedInteraction : ButtonBase
         if (!pTouched && gameController.userShift)
         {
             pTouched = true;
-            Activate();
+            Debug.Log("BtnPressedInteraction started in editor mode");
+            Activar();
             yield return new WaitForSeconds(2);
             pTouched = false;
         }
     }
+
+    
+    // public void OnTriggerEnter()
+    // {
+    //     if(gameController.userShift)
+    //     {
+    //         Debug.Log("BtnPressedInteraction started in editor mode");
+    //         Activate();
+    //     }
+    // }
 }

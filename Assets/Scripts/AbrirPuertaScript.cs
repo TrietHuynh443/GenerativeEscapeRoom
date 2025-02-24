@@ -14,10 +14,10 @@ public class AbrirPuertaScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            CheatSuccess();
-        }
+        // if (Input.GetKeyDown(KeyCode.LeftAlt))
+        // {
+        //     CheatSuccess();
+        // }
     }
 
     void OnTriggerEnter(Collider col)

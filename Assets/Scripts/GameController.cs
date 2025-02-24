@@ -154,7 +154,7 @@ public class GameController : MonoBehaviour
             //print("NIVEL "+ nivel +" entra, i= "+ contador + " === BTN " +ListaAleatoria[contador]);
 
             btns[RandomList[counter]].Activar();
-            if (counter >= nivel || Input.GetKeyDown(KeyCode.Space))
+            if (counter >= nivel)
             {
                 nivel++;
                 ChangeShift();

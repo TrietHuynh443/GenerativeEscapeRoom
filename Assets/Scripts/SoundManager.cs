@@ -6,19 +6,20 @@ using UnityEngine;
 public class SoundManager : UnitySingleton<SoundManager>
 {
     public static AudioClip Ins1L1, Ins2L1, Ins3L1, 
-    Ins4L1, Ins5L1, Ins6L1, Ins7L1, Ins8L1, Ins9L1, Ins1L2, Ins2L2, Ins3L2, Ins4L2, Ins5L2, Ins6L2;
+    Ins4L1, Ins5L1, Ins6L1, Ins7L1, Ins8L1, Ins9L1, Ins1L2, Ins2L2, Ins3L2, Ins4L2, Ins5L2, Ins6L2,
+    Ins1L3, Ins2L3, Ins3L3, Ins4L3;
     static AudioSource audioSource; 
     public GameObject screen;
     public GameObject scene2;
 
     public GameObject arrow;
     public Animator animArrow;
-    [Injector] private LogService _logService;
+    // [Injector] private LogService _logService;
     protected override void SingletonStarted()
     {
         base.SingletonStarted();
         Ins1L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins1L1");
-        Ins2L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins2L1");
+        // Ins2L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins2L1");
         Ins3L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins3L1");
         Ins4L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins4L1");
         Ins5L1 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins5L1");
@@ -34,12 +35,17 @@ public class SoundManager : UnitySingleton<SoundManager>
         Ins5L2 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins5L2");
         Ins6L2 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins6L2");
 
+        Ins1L3 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins1L3");
+        Ins2L3 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins2L3");
+        Ins3L3 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins3L3");
+        Ins4L3 = Resources.Load<AudioClip>("Sonidos/instrucciones/Ins4L3");
+
         arrow.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         PlaySound("Ins1L1");
         StartCoroutine(ChangeScreenInstruction("Ins1L1", "1Ins", "2Ins", 4, 15, 3));
         Debug.Log($"SoundManager Object {gameObject.name}");
-        _logService.Log($"SoundManager Object {gameObject.name}");
+        // _logService.Log($"SoundManager Object {gameObject.name}");
     }
 
     public IEnumerator ChangeScreenInstruction(string nombreAnim, string nameInstruction, string nameInstruction2, int secsImagen1, int secsAnim,int secsImagen2)
@@ -119,6 +125,18 @@ public class SoundManager : UnitySingleton<SoundManager>
             break;
         case "Ins6L2":
             audioSource.PlayOneShot(Ins6L2);
+            break;
+        case "Ins1L3":
+            audioSource.PlayOneShot(Ins1L3);
+            break;
+        case "Ins2L3":
+            audioSource.PlayOneShot(Ins2L3);
+            break;
+        case "Ins3L3":
+            audioSource.PlayOneShot(Ins3L3);
+            break;
+        case "Ins4L3":
+            audioSource.PlayOneShot(Ins4L3);
             break;
         }
     }

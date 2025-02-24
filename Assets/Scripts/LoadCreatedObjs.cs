@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using CommandSender;
 using Newtonsoft.Json;
+using Oculus.Interaction;
+using Oculus.Interaction.HandGrab;
 using UnityEngine;
+
 [System.Serializable]
     public class RoomData
     {
@@ -71,7 +74,11 @@ public class LoadCreatedObjs : MonoBehaviour
     private List<ClassifyObject> _classifyObjects = new();
     public ClassifyGame classifyGame;
     private readonly LoadAllModelCommandSender _loadAllModelCommandSender = new ();
+
+    public GameObject AudioGrabbableOVRObject;
     
+    public Game gameControll;
+
     private void Start()
     {
         // TextAsset jsonFile = Resources.Load<TextAsset>("data"); // No .json extension needed
@@ -104,8 +111,6 @@ public class LoadCreatedObjs : MonoBehaviour
         _loadingCanvasGroup.alpha = 1;
         StartCoroutine(LoadAllModel());
         
-
-
     }
 
     private IEnumerator LoadAllModel()
@@ -122,6 +127,7 @@ public class LoadCreatedObjs : MonoBehaviour
         if (!_isAdmin)
         {
             CacheClassifyObjs(operation.Result);
+            classifyGame.IsPlaying = true;
         }
         _loadingCanvasGroup.alpha = 0;
     }
@@ -131,20 +137,18 @@ public class LoadCreatedObjs : MonoBehaviour
     {
         foreach (var instance in objs)
         {
-            var colliderRidgid = instance.AddComponent<MeshCollider>();
-            // var colli = instance.GetComponent<MeshCollider>();
-            colliderRidgid.convex = true;
-        
             var rb = instance.AddComponent<Rigidbody>();
-            // = instance.GetComponent<Rigidbody>();
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.drag = 5f;
-        
+
             instance.AddComponent<GrabbableObject>();
             instance.layer = 12;
-        
-            instance.AddComponent<LoadTagClassifyObject>();
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            var loadTagObj = instance.AddComponent<LoadTagClassifyObject>();
+            loadTagObj.classifyGame = classifyGame;
+
+            AttachOculusInstance(instance);
             
             _classifyObjects.Add(instance.GetComponent<LoadTagClassifyObject>());
         }
@@ -156,4 +160,94 @@ public class LoadCreatedObjs : MonoBehaviour
     {
         return _classifyObjects;
     }
+
+
+    private void AttachOculusInstance(GameObject instance)
+    {
+        // Audio
+        GameObject audioGrabbableOvrObjectInstance = Instantiate(AudioGrabbableOVRObject);
+        instance.AddComponent<Grabbable>();
+        audioGrabbableOvrObjectInstance.transform.SetParent(instance.transform);
+        audioGrabbableOvrObjectInstance.transform.localPosition = Vector3.zero;
+        audioGrabbableOvrObjectInstance.transform.localRotation = Quaternion.identity;
+
+        var pointableUEW = instance.AddComponent<PointableUnityEventWrapper>();
+        pointableUEW.InjectPointable(instance.GetComponent<Grabbable>());
+        pointableUEW.InjectAllPointableUnityEventWrapper(instance.GetComponent<Grabbable>());
+
+        // Add audio to PointableEvent when Select
+        // var audioSource = audioGrabbableOvrObjectInstance.GetComponent<AudioSource>();
+        // pointableUEW.WhenSelect.AddListener(evt =>
+        // {
+        //     audioSource.Play();
+        // });
+
+        // Visual
+        GameObject visual = new GameObject("Visual");
+        visual.transform.SetParent(instance.transform);
+        visual.transform.localPosition = Vector3.zero;
+        visual.transform.localRotation = Quaternion.identity;
+        visual.transform.localScale = Vector3.one;
+
+        GameObject root = new GameObject("Root");
+        root.transform.SetParent(visual.transform);
+        root.transform.localPosition = Vector3.zero;
+        root.transform.localRotation = Quaternion.identity;
+        root.transform.localScale = Vector3.one;
+
+        var rootMeshFilter = root.AddComponent<MeshFilter>();
+        rootMeshFilter.sharedMesh = instance.GetComponent<MeshFilter>().sharedMesh;
+        
+        // string materialPath = "RecursosTutoriales/PlataformasCubos";
+        //
+        // Texture2D texture = Resources.Load<Texture2D>(materialPath);
+        //
+        // if (texture == null)
+        // {
+        //     Debug.LogError("Texture not found in Resources!");
+        //     return;
+        // }
+        //
+        // Material newMaterial = new Material(Shader.Find("Standard"));
+        // newMaterial.mainTexture = texture;
+
+        // var rootMeshRenderer = root.AddComponent<MeshRenderer>();  // chua duoc
+        // rootMeshRenderer.sharedMaterials = instance.GetComponent<MeshRenderer>().sharedMaterials;
+        // rootMeshRenderer.material = newMaterial;
+
+        var rootCollider = root.AddComponent<MeshCollider>();
+        rootCollider.convex = true;
+
+        
+
+        var visualMaterialPropertyBlockEditor = visual.AddComponent<MaterialPropertyBlockEditor>();
+        List<Renderer> materials = new List<Renderer>();
+        foreach (var renderer in instance.GetComponentsInChildren<Renderer>())
+        {
+            materials.AddRange(renderer.GetComponentsInChildren<Renderer>());
+        }
+        visualMaterialPropertyBlockEditor.Renderers = materials;
+
+        // HandGrab
+        GameObject handGrabInteractable = new GameObject("HandGrabInteractable");
+        handGrabInteractable.transform.SetParent(instance.transform);
+        handGrabInteractable.transform.localPosition = Vector3.zero;
+        handGrabInteractable.transform.localRotation = Quaternion.identity;
+        handGrabInteractable.transform.localScale = Vector3.one;
+
+        var handGrabInteractableScript = handGrabInteractable.AddComponent<HandGrabInteractable>();
+        handGrabInteractableScript.InjectOptionalPointableElement(instance.GetComponent<Grabbable>());
+        handGrabInteractableScript.InjectRigidbody(instance.GetComponent<Rigidbody>());
+        handGrabInteractableScript.HandAlignment = HandAlignType.None;
+
+        var interactGroupView = visual.AddComponent<InteractableGroupView>();
+        List<IInteractable> interactables = new List<IInteractable>();
+        interactables.Add(handGrabInteractableScript);
+        interactGroupView.InjectInteractables(interactables);
+
+        var colorVisual = visual.AddComponent<InteractableColorVisual>();
+        colorVisual.InjectInteractableView(interactGroupView);
+        colorVisual.InjectMaterialPropertyBlockEditor(visualMaterialPropertyBlockEditor);
+    }
+
 }

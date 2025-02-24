@@ -63,7 +63,7 @@ public class TraceGame : Game
             tUser.SetActive(false);
             _soundManager.activateAnimation("Ins8L1");
 
-            yield return new WaitForSeconds(11);
+            yield return new WaitForSeconds(9);
             _soundManager.PlaySound("Ins9L1");
             yield return new WaitForSeconds(3);
             tPC.SetActive(false);
@@ -72,7 +72,7 @@ public class TraceGame : Game
 
             firstTime = false;
 
-            yield return new WaitForSeconds(9);
+            yield return new WaitForSeconds(8);
             _soundManager.arrow.SetActive(false);
             tPC.SetActive(false);
             tUser.SetActive(false);

@@ -7,6 +7,10 @@ public class Room : MonoBehaviour
     public List<Game> games;
     public int currentGame = 0;
 
+    public bool isEnd = false;
+
+    [SerializeField] private Canvas _canvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +29,10 @@ public class Room : MonoBehaviour
             }
             else
             {
-                Debug.Log("All games are done");
+                if (isEnd == true)
+                {
+                    _canvas.gameObject.SetActive(true);
+                }
             }
         }
     }

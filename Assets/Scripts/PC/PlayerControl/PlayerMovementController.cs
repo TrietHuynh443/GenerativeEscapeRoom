@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
 
     public float speed = 1f;
+
+    public float gravity = -9.81f; // Gravity force
+    private Vector3 velocity; // Stores velocity for gravity calculations
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +27,13 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
+
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // Small downward force to keep grounded
+        }
+
+        velocity.y += gravity * Time.deltaTime; // Apply gravity over time
+        controller.Move(velocity * Time.deltaTime); // Move the player
     }
 }

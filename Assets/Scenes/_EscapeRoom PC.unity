@@ -3253,7 +3253,7 @@ MonoBehaviour:
   btnID: 0
   desactivando: 0
   desactivado: 0
-  gameController: {fileID: 0}
+  gameController: {fileID: 932774527}
 --- !u!1 &292186385
 GameObject:
   m_ObjectHideFlags: 0
@@ -12572,7 +12572,7 @@ MonoBehaviour:
   tPC: {fileID: 1155125362}
   buttons: {fileID: 1770796584}
   btnPlay: {fileID: 2103124894}
-  award: {fileID: 0}
+  award: {fileID: 2110300319}
   completedSound: 0
   playable: 1
 --- !u!1 &937438828
@@ -16893,7 +16893,7 @@ MonoBehaviour:
   btnID: 3
   desactivando: 0
   desactivado: 0
-  gameController: {fileID: 0}
+  gameController: {fileID: 932774527}
 --- !u!1 &1300590572
 GameObject:
   m_ObjectHideFlags: 0
@@ -19048,7 +19048,7 @@ MonoBehaviour:
   btnID: 2
   desactivando: 0
   desactivado: 0
-  gameController: {fileID: 0}
+  gameController: {fileID: 932774527}
 --- !u!1 &1480841872
 GameObject:
   m_ObjectHideFlags: 0
@@ -31663,7 +31663,7 @@ MonoBehaviour:
   btnID: 1
   desactivando: 0
   desactivado: 0
-  gameController: {fileID: 0}
+  gameController: {fileID: 932774527}
 --- !u!1 &2086386689
 GameObject:
   m_ObjectHideFlags: 0
@@ -33046,6 +33046,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4982644496741717314, guid: b47a8fdbe8d1c9e4c8f817675f5bb56b,
         type: 3}
+      propertyPath: pickUpRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982644496741717314, guid: b47a8fdbe8d1c9e4c8f817675f5bb56b,
+        type: 3}
       propertyPath: buttonLayer.m_Bits
       value: 8
       objectReference: {fileID: 0}
@@ -33108,6 +33113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944442826597241511, guid: b47a8fdbe8d1c9e4c8f817675f5bb56b,
+        type: 3}
+      propertyPath: freeLookSensitivity
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,13 +23,23 @@ namespace UI
         [SerializeField] private Button _saveModelButton;
         [SerializeField] private TMP_Dropdown _categoryDropdown;
 
-        private List<TMP_Dropdown.OptionData> _categoryOptions = new()
+        private List<TMP_Dropdown.OptionData> _categoryOptions = new();
+        private void Awake()
         {
-            new TMP_Dropdown.OptionData("Normal"),
-            new TMP_Dropdown.OptionData("Reuse"),
-            new TMP_Dropdown.OptionData("Recycle"),
-        };
-        
+            InitCateClassDropdownList();
+        }
+
+        private void InitCateClassDropdownList()
+        {
+            var cates = Enum.GetValues(typeof(EObjectClass));
+            foreach (var cate in cates)
+            {
+                _categoryOptions.Add(new TMP_Dropdown.OptionData(cate.ToString()));
+            }
+            _categoryDropdown.options = _categoryOptions;
+
+        }
+
         private readonly RoomSaveCommandSender _roomSaveCommandSender = new();
     
         [Injector]
@@ -41,7 +52,7 @@ namespace UI
         {
             _filePath = Path.Combine(Application.dataPath, "Resources/data.json");
             _creatModelButton.onClick.AddListener(RaiseGenModelOnClickEvent);
-            _saveModelButton.onClick.AddListener( SaveModelOnClickEvent);
+            _saveModelButton.onClick.AddListener(SaveModelOnClickEvent);
             StartCoroutine(Wait());
         
         }
@@ -64,7 +75,6 @@ namespace UI
             await _roomSaveCommandSender.Send(new()
             {
                 ModelParam = _lastInteract != null ? _lastInteract.name : "the_monkey_queen",
-                // ModelParam = "the_monkey_queen", //test
                 RoomParams = newData
             });
 
@@ -78,17 +88,13 @@ namespace UI
 
         private void GetInteractableSuccessAction(OnDraggingInteractableObjEvent obj)
         {
-            if (!obj.InteractableObj)
-            {
-                // _saveModelButton.interactable = false;
-                // _categoryDropdown.interactable = false;
-            }
-            else
+            if (obj.InteractableObj)
             {
                 _lastInteract = obj.InteractableObj.gameObject;
                 _saveModelButton.interactable = true;
                 _categoryDropdown.interactable = true;
-                _categoryDropdown.options = _categoryOptions;
+                Enum.TryParse<EObjectClass>(_lastInteract.GetComponent<InteractableGameObject>().GetConfig(ECategoryType.Class), out EObjectClass type);
+                _categoryDropdown.SetValueWithoutNotify((int)type);
             }
         }
 
@@ -98,7 +104,7 @@ namespace UI
             _eventAggregator.RemoveEventListener<OnDraggingInteractableObjEvent>(GetInteractableSuccessAction);
         }
 
-        public void RaiseGenModelOnClickEvent()
+        private void RaiseGenModelOnClickEvent()
         {
             OnCreateNewModelEvent evt = new OnCreateNewModelEvent()
             {

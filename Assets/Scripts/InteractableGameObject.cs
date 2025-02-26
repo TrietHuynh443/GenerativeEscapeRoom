@@ -12,6 +12,15 @@ public enum ECategoryType
     Size = 4,
 }
 
+public enum EObjectClass
+{
+    Organic = 0,
+    Inorganic = 1,
+    Reuse = 2,
+    Recycle = 3,
+    Hazardous = 4,
+}
+
 public class InteractableGameObject : MonoBehaviour
 {
     // Rotate using DOTween when the mouse is dragged

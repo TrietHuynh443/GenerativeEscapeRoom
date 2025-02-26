@@ -730,7 +730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &125493904
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4301,6 +4301,8 @@ MonoBehaviour:
   _loadingCanvasGroup: {fileID: 1255393508}
   _isAdmin: 1
   classifyGame: {fileID: 0}
+  AudioGrabbableOVRObject: {fileID: 0}
+  gameControll: {fileID: 0}
 --- !u!4 &1442156708
 Transform:
   m_ObjectHideFlags: 0

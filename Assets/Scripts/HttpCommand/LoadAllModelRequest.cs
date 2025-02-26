@@ -29,3 +29,15 @@ public class Id
     [JsonProperty("$oid")]
     public string Oid { get; set; }
 }
+
+public class GetCategoryRequest : BaseRequest
+{
+    [JsonProperty("obj_id")] 
+    public string ObjId { get; set; } = "";
+}
+
+public class GetCategoryResponse : BaseResponse
+{
+    [JsonProperty("output")]
+    public string Category { get; set; } = "";
+}

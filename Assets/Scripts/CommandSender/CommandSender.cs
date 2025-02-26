@@ -19,7 +19,7 @@ namespace CommandSender
         protected readonly string BaseUrl  = "http://localhost:8000";
         protected string Url { get; set; }
         public abstract Task Send(TRequest request);
-        protected async UniTask<TResponse> DoGet(TRequest request)
+        protected async UniTask<TResponse> DoGetAll(TRequest request)
         {
             var queryString = request.ToQuery();
             var url = $"{Url}?{queryString}";
@@ -74,7 +74,7 @@ namespace CommandSender
             return request;
         }
 
-        protected async UniTask<List<TResponse>> DoGet(UnityWebRequest webRequest)
+        protected async UniTask<List<TResponse>> DoGetAll(UnityWebRequest webRequest)
         {
             try
             {
@@ -82,6 +82,24 @@ namespace CommandSender
                 if (webRequest.result == UnityWebRequest.Result.Success)
                 {
                     return JsonConvert.DeserializeObject<List<TResponse>>(webRequest.downloadHandler.text);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Request failed: {e.Message}");
+            }
+
+            return null;
+        }
+
+        protected async UniTask<TResponse> DoGet(UnityWebRequest webRequest)
+        {
+            try
+            {
+                await webRequest.SendWebRequest().ToUniTask();
+                if (webRequest.result == UnityWebRequest.Result.Success)
+                {
+                    return JsonConvert.DeserializeObject<TResponse>(webRequest.downloadHandler.text);
                 }
             }
             catch (Exception e)

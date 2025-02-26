@@ -18,7 +18,7 @@ namespace CommandSender
         public async Task<List<GameObject>> LoadAll(LoadAllModelRequest request)
         {
             UnityWebRequest webRequest = CreateRequest(Url + request.RoomName, UnityWebRequest.kHttpVerbGET, null);
-            var res = await DoGet(webRequest);
+            var res = await DoGetAll(webRequest);
             List<GameObject> objs = new();
     
             if (res != null)
@@ -72,6 +72,24 @@ namespace CommandSender
         public override Task Send(LoadAllModelRequest request)
         {
             throw new System.NotImplementedException();
+        }
+    }
+
+    public class LoadCategoryCommandSender : CommandSender<GetCategoryRequest, GetCategoryResponse>
+    {
+        public LoadCategoryCommandSender()
+        {
+            Url = $"{BaseUrl}/model_cate?obj_id=";
+        }
+        public async Task<GetCategoryResponse> GetCate(GetCategoryRequest request)
+        {
+            var query = Url + request.ObjId;
+            UnityWebRequest webRequest = CreateRequest(query, UnityWebRequest.kHttpVerbGET, null);
+            return await DoGet(webRequest);
+        }
+        public override Task Send(GetCategoryRequest request)
+        {
+            return Task.CompletedTask;
         }
     }
 }

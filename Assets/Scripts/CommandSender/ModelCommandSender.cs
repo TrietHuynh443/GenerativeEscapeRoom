@@ -131,6 +131,13 @@ namespace CommandSender
                 {
                     model.name = modelId;
                     InitModelComponents(model);
+                    var cateCommand = new LoadCategoryCommandSender();
+                    var res = await cateCommand.GetCate(new()
+                    {
+                        ObjId = modelId
+                    });
+                    Debug.Log($"Cate load {res.Category}");
+                    model.GetComponentInChildren<InteractableGameObject>().SetConfig(ECategoryType.Class, res.Category);
                 }
                 modelStream.Close();
                 return model;

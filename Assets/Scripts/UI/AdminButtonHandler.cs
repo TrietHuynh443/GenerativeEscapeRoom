@@ -77,6 +77,7 @@ namespace UI
                 ModelParam = _lastInteract != null ? _lastInteract.name : "the_monkey_queen",
                 RoomParams = newData
             });
+            _lastInteract.GetComponent<InteractableGameObject>().SetConfig(ECategoryType.Class, _categoryDropdown.captionText.text);
 
         }
 
